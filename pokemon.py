@@ -27,9 +27,7 @@ def has_type(pokemon, type_name):
     Returns:
         bool: True if Pokemon has this type, False otherwise
     """
-    # TODO 3: Team State Checks
-    # TODO 3.3: Check if type_name is in pokemon's types list
-    pass
+    return type_name in pokemon["types"]
 
 
 def get_hp_percentage(pokemon):
@@ -42,8 +40,9 @@ def get_hp_percentage(pokemon):
     Returns:
         float: HP percentage (0.0 to 1.0)
     """
-    # TODO 1.4: Return current_hp / max_hp (handle division by zero)
-    pass
+    if not pokemon["max_hp"] <= 0:
+        return pokemon["current_hp"] / pokemon["max_hp"]
+    return 0
 
 
 def take_damage(pokemon, amount):
@@ -54,9 +53,7 @@ def take_damage(pokemon, amount):
         pokemon: Pokemon dictionary
         amount: Damage amount to subtract from current HP
     """
-    # TODO 1: Pokemon State Management
-    # TODO 1.1: Subtract amount from current_hp, ensure HP doesn't go below 0
-    pass
+    pokemon["current_hp"] = max(0, pokemon["current_hp"] - amount)
 
 
 def is_fainted(pokemon):
@@ -69,8 +66,8 @@ def is_fainted(pokemon):
     Returns:
         bool: True if current_hp is 0, False otherwise
     """
-    # TODO 1.2: Return True if current_hp <= 0
-    pass
+    if pokemon["current_hp"] <= 0:
+        return True
 
 
 def get_stat(pokemon, stat_name):
@@ -84,5 +81,4 @@ def get_stat(pokemon, stat_name):
     Returns:
         int: The stat value, or 0 if stat doesn't exist
     """
-    # TODO 1.3: Return stat value from stats dict, or 0 if not found
-    pass
+    return pokemon.get(stat_name, 0)

@@ -29,6 +29,5 @@ def check_hit(move):
     Returns:
         bool: True if move hits, False if it misses
     """
-    # TODO 4: Basic Move Mechanics
-    # TODO 4.1: Generate random number 1-100, return True if <= accuracy
-    pass
+    number = random.randint(1, 100)
+    return number <= move["accuracy"]

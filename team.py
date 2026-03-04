@@ -29,9 +29,7 @@ def create_team():
     Returns:
         dict: Empty team dictionary
     """
-    # TODO 2: Team Management
-    # TODO 2.1: Return dict with empty pokemon_list and current_pokemon_index = 0
-    pass
+    return {"pokemon_list": [], "current_pokemon_index": 0}
 
 
 def add_pokemon(team, pokemon):
@@ -45,8 +43,10 @@ def add_pokemon(team, pokemon):
     Returns:
         bool: True if Pokemon was added, False if team is full (6 Pokemon)
     """
-    # TODO 2.2: Check if team has < 6 Pokemon, append if yes, return True/False
-    pass
+    if team["pokemon_list"] < 6:
+        team["pokemon_list"].append(pokemon)
+        return True
+    return False
 
 
 def get_current_pokemon(team):
@@ -59,8 +59,9 @@ def get_current_pokemon(team):
     Returns:
         dict | None: The active Pokemon dictionary, or None if team is empty or index invalid
     """
-    # TODO 2.3: Get pokemon at current_pokemon_index, return None if invalid
-    pass
+    if team["current_pokemon_index"] <= len(team["pokemon_list"]) - 1:
+        return team["pokemon_list"][team["current_pokemon_index"]]
+    return None
 
 
 def switch_pokemon(team, index):
@@ -74,8 +75,10 @@ def switch_pokemon(team, index):
     Returns:
         bool: True if switch was successful, False if index is invalid
     """
-    # TODO 2.4: Validate index, set current_pokemon_index if valid, return True/False
-    pass
+    if 0 <= index <= len(team["pokemon_list"]) - 1:
+        team["current_pokemon_index"] = index
+        return True
+    return False
 
 
 def all_fainted(team):
@@ -88,9 +91,10 @@ def all_fainted(team):
     Returns:
         bool: True if all Pokemon are fainted, False otherwise
     """
-    # TODO 3: Team State Checks
-    # TODO 3.1: Loop through pokemon_list, return False if any not fainted
-    pass
+    for pokemon in team["pokemon_list"]:
+        if not is_fainted(pokemon):
+            return False
+    return True
 
 
 def get_available_pokemon(team):
@@ -138,8 +142,7 @@ def get_team_size(team):
     Returns:
         int: Number of Pokemon in pokemon_list
     """
-    # TODO 3.2: Return length of pokemon_list
-    pass
+    return len(team["pokemon_list"])
 
 
 def team_to_string(team):
