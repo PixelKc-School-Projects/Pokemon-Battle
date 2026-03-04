@@ -1,0 +1,23 @@
+{
+  "id": 63,
+  "name": "abra",
+  "types": [
+    "psychic"
+  ],
+  "stats": {
+    "hp": 25,
+    "attack": 20,
+    "defense": 15,
+    "special-attack": 105,
+    "special-defense": 55,
+    "speed": 90
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/63.png",
+  "moves": [
+    "confusion",
+    "psybeam",
+    "psychic",
+    "psycho-cut"
+  ]
+}

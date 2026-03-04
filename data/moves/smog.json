@@ -1,0 +1,8 @@
+{
+  "id": 123,
+  "name": "smog",
+  "type": "poison",
+  "power": 30,
+  "accuracy": 70,
+  "pp": 20
+}

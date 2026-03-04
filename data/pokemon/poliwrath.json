@@ -1,0 +1,24 @@
+{
+  "id": 62,
+  "name": "poliwrath",
+  "types": [
+    "water",
+    "fighting"
+  ],
+  "stats": {
+    "hp": 90,
+    "attack": 95,
+    "defense": 95,
+    "special-attack": 70,
+    "special-defense": 90,
+    "speed": 70
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/62.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/62.png",
+  "moves": [
+    "double-edge",
+    "superpower",
+    "hydro-pump",
+    "pound"
+  ]
+}

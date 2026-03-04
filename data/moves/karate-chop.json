@@ -1,0 +1,8 @@
+{
+  "id": 2,
+  "name": "karate-chop",
+  "type": "fighting",
+  "power": 50,
+  "accuracy": 100,
+  "pp": 25
+}

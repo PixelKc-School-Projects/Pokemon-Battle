@@ -1,0 +1,24 @@
+{
+  "id": 31,
+  "name": "nidoqueen",
+  "types": [
+    "poison",
+    "ground"
+  ],
+  "stats": {
+    "hp": 90,
+    "attack": 92,
+    "defense": 87,
+    "special-attack": 75,
+    "special-defense": 85,
+    "speed": 76
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/31.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/31.png",
+  "moves": [
+    "superpower",
+    "sludge-wave",
+    "earth-power",
+    "scratch"
+  ]
+}

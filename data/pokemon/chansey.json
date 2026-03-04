@@ -1,0 +1,23 @@
+{
+  "id": 113,
+  "name": "chansey",
+  "types": [
+    "normal"
+  ],
+  "stats": {
+    "hp": 250,
+    "attack": 5,
+    "defense": 5,
+    "special-attack": 35,
+    "special-defense": 105,
+    "speed": 50
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/113.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/113.png",
+  "moves": [
+    "last-resort",
+    "double-edge",
+    "fairy-wind",
+    "pound"
+  ]
+}

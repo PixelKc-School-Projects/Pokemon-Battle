@@ -1,0 +1,23 @@
+{
+  "id": 64,
+  "name": "kadabra",
+  "types": [
+    "psychic"
+  ],
+  "stats": {
+    "hp": 40,
+    "attack": 35,
+    "defense": 30,
+    "special-attack": 120,
+    "special-defense": 70,
+    "speed": 105
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/64.png",
+  "moves": [
+    "future-sight",
+    "psychic",
+    "confusion",
+    "psyshock"
+  ]
+}

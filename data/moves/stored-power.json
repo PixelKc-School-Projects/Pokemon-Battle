@@ -1,0 +1,8 @@
+{
+  "id": 500,
+  "name": "stored-power",
+  "type": "psychic",
+  "power": 20,
+  "accuracy": 100,
+  "pp": 10
+}

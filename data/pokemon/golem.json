@@ -1,0 +1,24 @@
+{
+  "id": 76,
+  "name": "golem",
+  "types": [
+    "rock",
+    "ground"
+  ],
+  "stats": {
+    "hp": 80,
+    "attack": 120,
+    "defense": 130,
+    "special-attack": 55,
+    "special-defense": 65,
+    "speed": 45
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/76.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/76.png",
+  "moves": [
+    "explosion",
+    "self-destruct",
+    "earthquake",
+    "steamroller"
+  ]
+}

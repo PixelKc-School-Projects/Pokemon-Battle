@@ -1,0 +1,23 @@
+{
+  "id": 24,
+  "name": "arbok",
+  "types": [
+    "poison"
+  ],
+  "stats": {
+    "hp": 60,
+    "attack": 95,
+    "defense": 69,
+    "special-attack": 65,
+    "special-defense": 79,
+    "speed": 80
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/24.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/24.png",
+  "moves": [
+    "belch",
+    "gunk-shot",
+    "crunch",
+    "slam"
+  ]
+}

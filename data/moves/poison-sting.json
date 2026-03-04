@@ -1,0 +1,8 @@
+{
+  "id": 40,
+  "name": "poison-sting",
+  "type": "poison",
+  "power": 15,
+  "accuracy": 100,
+  "pp": 35
+}

@@ -1,0 +1,23 @@
+{
+  "id": 51,
+  "name": "dugtrio",
+  "types": [
+    "ground"
+  ],
+  "stats": {
+    "hp": 35,
+    "attack": 100,
+    "defense": 50,
+    "special-attack": 50,
+    "special-defense": 70,
+    "speed": 120
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/51.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/51.png",
+  "moves": [
+    "earthquake",
+    "earth-power",
+    "tri-attack",
+    "night-slash"
+  ]
+}

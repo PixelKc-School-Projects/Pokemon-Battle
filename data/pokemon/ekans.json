@@ -1,0 +1,23 @@
+{
+  "id": 23,
+  "name": "ekans",
+  "types": [
+    "poison"
+  ],
+  "stats": {
+    "hp": 35,
+    "attack": 60,
+    "defense": 44,
+    "special-attack": 40,
+    "special-defense": 54,
+    "speed": 55
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/23.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/23.png",
+  "moves": [
+    "belch",
+    "gunk-shot",
+    "slam",
+    "bite"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": 101,
+  "name": "electrode",
+  "types": [
+    "electric"
+  ],
+  "stats": {
+    "hp": 60,
+    "attack": 50,
+    "defense": 70,
+    "special-attack": 80,
+    "special-defense": 80,
+    "speed": 150
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/101.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/101.png",
+  "moves": [
+    "explosion",
+    "self-destruct",
+    "thunderbolt",
+    "rollout"
+  ]
+}

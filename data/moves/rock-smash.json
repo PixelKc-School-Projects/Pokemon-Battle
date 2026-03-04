@@ -1,0 +1,8 @@
+{
+  "id": 249,
+  "name": "rock-smash",
+  "type": "fighting",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 15
+}

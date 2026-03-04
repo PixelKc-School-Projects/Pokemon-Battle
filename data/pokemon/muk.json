@@ -1,0 +1,23 @@
+{
+  "id": 89,
+  "name": "muk",
+  "types": [
+    "poison"
+  ],
+  "stats": {
+    "hp": 105,
+    "attack": 105,
+    "defense": 75,
+    "special-attack": 65,
+    "special-defense": 100,
+    "speed": 50
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/89.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/89.png",
+  "moves": [
+    "belch",
+    "gunk-shot",
+    "moonblast",
+    "pound"
+  ]
+}

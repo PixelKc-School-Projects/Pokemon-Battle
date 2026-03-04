@@ -1,0 +1,24 @@
+{
+  "id": 121,
+  "name": "starmie",
+  "types": [
+    "water",
+    "psychic"
+  ],
+  "stats": {
+    "hp": 60,
+    "attack": 75,
+    "defense": 85,
+    "special-attack": 100,
+    "special-defense": 85,
+    "speed": 115
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/121.png",
+  "moves": [
+    "hydro-pump",
+    "surf",
+    "psychic",
+    "rapid-spin"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": 118,
+  "name": "goldeen",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 45,
+    "attack": 67,
+    "defense": 60,
+    "special-attack": 35,
+    "special-defense": 50,
+    "speed": 63
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/118.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/118.png",
+  "moves": [
+    "megahorn",
+    "waterfall",
+    "horn-attack",
+    "peck"
+  ]
+}

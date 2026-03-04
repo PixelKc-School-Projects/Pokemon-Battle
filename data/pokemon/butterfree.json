@@ -1,0 +1,24 @@
+{
+  "id": 12,
+  "name": "butterfree",
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "stats": {
+    "hp": 60,
+    "attack": 45,
+    "defense": 50,
+    "special-attack": 90,
+    "special-defense": 80,
+    "speed": 70
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/12.png",
+  "moves": [
+    "bug-buzz",
+    "air-slash",
+    "psybeam",
+    "gust"
+  ]
+}

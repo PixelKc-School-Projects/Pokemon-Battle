@@ -1,0 +1,8 @@
+{
+  "id": 189,
+  "name": "mud-slap",
+  "type": "ground",
+  "power": 20,
+  "accuracy": 100,
+  "pp": 10
+}

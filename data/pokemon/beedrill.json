@@ -1,0 +1,24 @@
+{
+  "id": 15,
+  "name": "beedrill",
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "stats": {
+    "hp": 65,
+    "attack": 90,
+    "defense": 40,
+    "special-attack": 45,
+    "special-defense": 80,
+    "speed": 75
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/15.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/15.png",
+  "moves": [
+    "outrage",
+    "poison-jab",
+    "bug-bite",
+    "peck"
+  ]
+}

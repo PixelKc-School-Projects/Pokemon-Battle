@@ -1,0 +1,24 @@
+{
+  "id": 72,
+  "name": "tentacool",
+  "types": [
+    "water",
+    "poison"
+  ],
+  "stats": {
+    "hp": 40,
+    "attack": 40,
+    "defense": 35,
+    "special-attack": 50,
+    "special-defense": 100,
+    "speed": 70
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/72.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/72.png",
+  "moves": [
+    "hydro-pump",
+    "sludge-wave",
+    "surf",
+    "constrict"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": 38,
+  "name": "ninetales",
+  "types": [
+    "fire"
+  ],
+  "stats": {
+    "hp": 73,
+    "attack": 76,
+    "defense": 75,
+    "special-attack": 81,
+    "special-defense": 100,
+    "speed": 100
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/38.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/38.png",
+  "moves": [
+    "fire-blast",
+    "flamethrower",
+    "extrasensory",
+    "tackle"
+  ]
+}

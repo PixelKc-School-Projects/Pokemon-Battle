@@ -1,0 +1,8 @@
+{
+  "id": 124,
+  "name": "sludge",
+  "type": "poison",
+  "power": 65,
+  "accuracy": 100,
+  "pp": 20
+}

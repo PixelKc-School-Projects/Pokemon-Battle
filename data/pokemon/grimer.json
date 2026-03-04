@@ -1,0 +1,23 @@
+{
+  "id": 88,
+  "name": "grimer",
+  "types": [
+    "poison"
+  ],
+  "stats": {
+    "hp": 80,
+    "attack": 80,
+    "defense": 50,
+    "special-attack": 40,
+    "special-defense": 50,
+    "speed": 25
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/88.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/88.png",
+  "moves": [
+    "belch",
+    "gunk-shot",
+    "mud-bomb",
+    "pound"
+  ]
+}

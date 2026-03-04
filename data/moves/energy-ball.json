@@ -1,0 +1,8 @@
+{
+  "id": 412,
+  "name": "energy-ball",
+  "type": "grass",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 10
+}

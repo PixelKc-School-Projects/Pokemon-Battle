@@ -1,0 +1,24 @@
+{
+  "id": 103,
+  "name": "exeggutor",
+  "types": [
+    "grass",
+    "psychic"
+  ],
+  "stats": {
+    "hp": 95,
+    "attack": 95,
+    "defense": 85,
+    "special-attack": 125,
+    "special-defense": 75,
+    "speed": 55
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/103.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/103.png",
+  "moves": [
+    "leaf-storm",
+    "wood-hammer",
+    "egg-bomb",
+    "confusion"
+  ]
+}

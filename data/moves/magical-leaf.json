@@ -1,0 +1,8 @@
+{
+  "id": 345,
+  "name": "magical-leaf",
+  "type": "grass",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 20
+}

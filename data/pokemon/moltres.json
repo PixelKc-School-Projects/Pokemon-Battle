@@ -1,0 +1,24 @@
+{
+  "id": 146,
+  "name": "moltres",
+  "types": [
+    "fire",
+    "flying"
+  ],
+  "stats": {
+    "hp": 90,
+    "attack": 100,
+    "defense": 90,
+    "special-attack": 125,
+    "special-defense": 85,
+    "speed": 90
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/146.png",
+  "moves": [
+    "sky-attack",
+    "burn-up",
+    "overheat",
+    "solar-beam"
+  ]
+}

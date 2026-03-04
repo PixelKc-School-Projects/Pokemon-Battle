@@ -1,0 +1,23 @@
+{
+  "id": 32,
+  "name": "nidoran-m",
+  "types": [
+    "poison"
+  ],
+  "stats": {
+    "hp": 46,
+    "attack": 57,
+    "defense": 40,
+    "special-attack": 40,
+    "special-defense": 40,
+    "speed": 50
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/32.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/32.png",
+  "moves": [
+    "earth-power",
+    "poison-jab",
+    "horn-attack",
+    "tackle"
+  ]
+}

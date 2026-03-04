@@ -1,0 +1,8 @@
+{
+  "id": 325,
+  "name": "shadow-punch",
+  "type": "ghost",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 20
+}

@@ -1,0 +1,23 @@
+{
+  "id": 67,
+  "name": "machoke",
+  "types": [
+    "fighting"
+  ],
+  "stats": {
+    "hp": 80,
+    "attack": 100,
+    "defense": 70,
+    "special-attack": 50,
+    "special-defense": 60,
+    "speed": 45
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/67.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/67.png",
+  "moves": [
+    "double-edge",
+    "superpower",
+    "close-combat",
+    "bullet-punch"
+  ]
+}

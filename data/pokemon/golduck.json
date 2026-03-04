@@ -1,0 +1,23 @@
+{
+  "id": 55,
+  "name": "golduck",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 80,
+    "attack": 82,
+    "defense": 78,
+    "special-attack": 95,
+    "special-defense": 80,
+    "speed": 85
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/55.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/55.png",
+  "moves": [
+    "hydro-pump",
+    "surf",
+    "zen-headbutt",
+    "scratch"
+  ]
+}

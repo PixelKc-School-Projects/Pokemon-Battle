@@ -1,0 +1,8 @@
+{
+  "id": 398,
+  "name": "poison-jab",
+  "type": "poison",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 20
+}

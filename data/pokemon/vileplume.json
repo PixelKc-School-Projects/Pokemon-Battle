@@ -1,0 +1,24 @@
+{
+  "id": 45,
+  "name": "vileplume",
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "stats": {
+    "hp": 75,
+    "attack": 80,
+    "defense": 85,
+    "special-attack": 110,
+    "special-defense": 90,
+    "speed": 50
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/45.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/45.png",
+  "moves": [
+    "solar-beam",
+    "petal-dance",
+    "moonblast",
+    "acid"
+  ]
+}

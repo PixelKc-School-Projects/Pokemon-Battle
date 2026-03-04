@@ -1,0 +1,23 @@
+{
+  "id": 96,
+  "name": "drowzee",
+  "types": [
+    "psychic"
+  ],
+  "stats": {
+    "hp": 60,
+    "attack": 48,
+    "defense": 45,
+    "special-attack": 43,
+    "special-defense": 90,
+    "speed": 42
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/96.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/96.png",
+  "moves": [
+    "future-sight",
+    "synchronoise",
+    "headbutt",
+    "wake-up-slap"
+  ]
+}

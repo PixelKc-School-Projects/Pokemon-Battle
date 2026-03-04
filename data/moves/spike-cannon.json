@@ -1,0 +1,8 @@
+{
+  "id": 131,
+  "name": "spike-cannon",
+  "type": "normal",
+  "power": 20,
+  "accuracy": 100,
+  "pp": 15
+}

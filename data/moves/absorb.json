@@ -1,0 +1,8 @@
+{
+  "id": 71,
+  "name": "absorb",
+  "type": "grass",
+  "power": 20,
+  "accuracy": 100,
+  "pp": 25
+}

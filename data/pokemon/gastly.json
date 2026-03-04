@@ -1,0 +1,24 @@
+{
+  "id": 92,
+  "name": "gastly",
+  "types": [
+    "ghost",
+    "poison"
+  ],
+  "stats": {
+    "hp": 30,
+    "attack": 35,
+    "defense": 30,
+    "special-attack": 100,
+    "special-defense": 35,
+    "speed": 80
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/92.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/92.png",
+  "moves": [
+    "dream-eater",
+    "shadow-ball",
+    "dark-pulse",
+    "lick"
+  ]
+}

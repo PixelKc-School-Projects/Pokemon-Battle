@@ -1,0 +1,23 @@
+{
+  "id": 19,
+  "name": "rattata",
+  "types": [
+    "normal"
+  ],
+  "stats": {
+    "hp": 30,
+    "attack": 56,
+    "defense": 35,
+    "special-attack": 25,
+    "special-defense": 35,
+    "speed": 72
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/19.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/19.png",
+  "moves": [
+    "double-edge",
+    "take-down",
+    "crunch",
+    "tackle"
+  ]
+}

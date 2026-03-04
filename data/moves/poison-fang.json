@@ -1,0 +1,8 @@
+{
+  "id": 305,
+  "name": "poison-fang",
+  "type": "poison",
+  "power": 50,
+  "accuracy": 100,
+  "pp": 15
+}

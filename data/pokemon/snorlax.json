@@ -1,0 +1,23 @@
+{
+  "id": 143,
+  "name": "snorlax",
+  "types": [
+    "normal"
+  ],
+  "stats": {
+    "hp": 160,
+    "attack": 110,
+    "defense": 65,
+    "special-attack": 65,
+    "special-defense": 110,
+    "speed": 30
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/143.png",
+  "moves": [
+    "hyper-beam",
+    "giga-impact",
+    "belch",
+    "lick"
+  ]
+}

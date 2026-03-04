@@ -1,0 +1,8 @@
+{
+  "id": 523,
+  "name": "bulldoze",
+  "type": "ground",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 20
+}

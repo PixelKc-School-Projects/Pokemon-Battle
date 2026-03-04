@@ -1,0 +1,8 @@
+{
+  "id": 491,
+  "name": "acid-spray",
+  "type": "poison",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 20
+}

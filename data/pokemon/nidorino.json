@@ -1,0 +1,23 @@
+{
+  "id": 33,
+  "name": "nidorino",
+  "types": [
+    "poison"
+  ],
+  "stats": {
+    "hp": 61,
+    "attack": 72,
+    "defense": 57,
+    "special-attack": 55,
+    "special-defense": 55,
+    "speed": 65
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/33.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/33.png",
+  "moves": [
+    "earth-power",
+    "poison-jab",
+    "horn-attack",
+    "tackle"
+  ]
+}

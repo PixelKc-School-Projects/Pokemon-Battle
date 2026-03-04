@@ -1,0 +1,23 @@
+{
+  "id": 68,
+  "name": "machamp",
+  "types": [
+    "fighting"
+  ],
+  "stats": {
+    "hp": 90,
+    "attack": 130,
+    "defense": 80,
+    "special-attack": 65,
+    "special-defense": 85,
+    "speed": 55
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/68.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/68.png",
+  "moves": [
+    "double-edge",
+    "superpower",
+    "close-combat",
+    "bullet-punch"
+  ]
+}

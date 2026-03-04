@@ -1,0 +1,8 @@
+{
+  "id": 29,
+  "name": "headbutt",
+  "type": "normal",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 15
+}

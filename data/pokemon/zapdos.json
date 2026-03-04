@@ -1,0 +1,24 @@
+{
+  "id": 145,
+  "name": "zapdos",
+  "types": [
+    "electric",
+    "flying"
+  ],
+  "stats": {
+    "hp": 90,
+    "attack": 90,
+    "defense": 85,
+    "special-attack": 125,
+    "special-defense": 90,
+    "speed": 100
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/145.png",
+  "moves": [
+    "sky-attack",
+    "zap-cannon",
+    "thunder",
+    "ancient-power"
+  ]
+}

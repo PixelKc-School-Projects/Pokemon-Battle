@@ -1,0 +1,23 @@
+{
+  "id": 27,
+  "name": "sandshrew",
+  "types": [
+    "ground"
+  ],
+  "stats": {
+    "hp": 50,
+    "attack": 75,
+    "defense": 85,
+    "special-attack": 20,
+    "special-defense": 30,
+    "speed": 40
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/27.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/27.png",
+  "moves": [
+    "earthquake",
+    "dig",
+    "slash",
+    "poison-sting"
+  ]
+}

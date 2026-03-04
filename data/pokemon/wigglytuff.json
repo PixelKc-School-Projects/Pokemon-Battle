@@ -1,0 +1,24 @@
+{
+  "id": 40,
+  "name": "wigglytuff",
+  "types": [
+    "normal",
+    "fairy"
+  ],
+  "stats": {
+    "hp": 140,
+    "attack": 70,
+    "defense": 45,
+    "special-attack": 85,
+    "special-defense": 50,
+    "speed": 45
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/40.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/40.png",
+  "moves": [
+    "double-edge",
+    "hyper-voice",
+    "play-rough",
+    "pound"
+  ]
+}

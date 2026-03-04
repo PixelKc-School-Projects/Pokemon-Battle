@@ -1,0 +1,8 @@
+{
+  "id": 450,
+  "name": "bug-bite",
+  "type": "bug",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 20
+}

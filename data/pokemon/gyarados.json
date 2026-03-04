@@ -1,0 +1,24 @@
+{
+  "id": 130,
+  "name": "gyarados",
+  "types": [
+    "water",
+    "flying"
+  ],
+  "stats": {
+    "hp": 95,
+    "attack": 125,
+    "defense": 79,
+    "special-attack": 60,
+    "special-defense": 100,
+    "speed": 81
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/130.png",
+  "moves": [
+    "hyper-beam",
+    "thrash",
+    "outrage",
+    "bite"
+  ]
+}

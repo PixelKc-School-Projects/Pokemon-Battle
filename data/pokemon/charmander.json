@@ -1,0 +1,23 @@
+{
+  "id": 4,
+  "name": "charmander",
+  "types": [
+    "fire"
+  ],
+  "stats": {
+    "hp": 39,
+    "attack": 52,
+    "defense": 43,
+    "special-attack": 60,
+    "special-defense": 50,
+    "speed": 65
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/4.png",
+  "moves": [
+    "flare-blitz",
+    "flamethrower",
+    "slash",
+    "metal-claw"
+  ]
+}

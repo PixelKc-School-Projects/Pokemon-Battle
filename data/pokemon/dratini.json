@@ -1,0 +1,23 @@
+{
+  "id": 147,
+  "name": "dratini",
+  "types": [
+    "dragon"
+  ],
+  "stats": {
+    "hp": 41,
+    "attack": 64,
+    "defense": 45,
+    "special-attack": 50,
+    "special-defense": 50,
+    "speed": 50
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/147.png",
+  "moves": [
+    "hyper-beam",
+    "outrage",
+    "dragon-rush",
+    "aqua-tail"
+  ]
+}

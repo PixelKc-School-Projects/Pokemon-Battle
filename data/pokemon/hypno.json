@@ -1,0 +1,23 @@
+{
+  "id": 97,
+  "name": "hypno",
+  "types": [
+    "psychic"
+  ],
+  "stats": {
+    "hp": 85,
+    "attack": 73,
+    "defense": 70,
+    "special-attack": 73,
+    "special-defense": 115,
+    "speed": 67
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/97.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/97.png",
+  "moves": [
+    "future-sight",
+    "synchronoise",
+    "headbutt",
+    "wake-up-slap"
+  ]
+}

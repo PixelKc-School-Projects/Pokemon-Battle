@@ -1,0 +1,23 @@
+{
+  "id": 100,
+  "name": "voltorb",
+  "types": [
+    "electric"
+  ],
+  "stats": {
+    "hp": 40,
+    "attack": 30,
+    "defense": 50,
+    "special-attack": 55,
+    "special-defense": 55,
+    "speed": 100
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/100.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/100.png",
+  "moves": [
+    "explosion",
+    "self-destruct",
+    "thunderbolt",
+    "rollout"
+  ]
+}

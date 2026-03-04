@@ -1,0 +1,24 @@
+{
+  "id": 144,
+  "name": "articuno",
+  "types": [
+    "ice",
+    "flying"
+  ],
+  "stats": {
+    "hp": 90,
+    "attack": 85,
+    "defense": 100,
+    "special-attack": 95,
+    "special-defense": 125,
+    "speed": 85
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/144.png",
+  "moves": [
+    "sky-attack",
+    "hurricane",
+    "blizzard",
+    "ancient-power"
+  ]
+}

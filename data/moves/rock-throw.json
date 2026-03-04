@@ -1,0 +1,8 @@
+{
+  "id": 88,
+  "name": "rock-throw",
+  "type": "rock",
+  "power": 50,
+  "accuracy": 90,
+  "pp": 15
+}

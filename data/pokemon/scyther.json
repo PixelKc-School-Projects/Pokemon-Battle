@@ -1,0 +1,24 @@
+{
+  "id": 123,
+  "name": "scyther",
+  "types": [
+    "bug",
+    "flying"
+  ],
+  "stats": {
+    "hp": 70,
+    "attack": 110,
+    "defense": 80,
+    "special-attack": 55,
+    "special-defense": 80,
+    "speed": 105
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/123.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/123.png",
+  "moves": [
+    "close-combat",
+    "x-scissor",
+    "razor-wind",
+    "false-swipe"
+  ]
+}

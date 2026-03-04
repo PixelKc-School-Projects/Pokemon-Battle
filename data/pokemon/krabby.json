@@ -1,0 +1,23 @@
+{
+  "id": 98,
+  "name": "krabby",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 30,
+    "attack": 105,
+    "defense": 90,
+    "special-attack": 25,
+    "special-defense": 25,
+    "speed": 50
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/98.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/98.png",
+  "moves": [
+    "crabhammer",
+    "slam",
+    "razor-shell",
+    "metal-claw"
+  ]
+}

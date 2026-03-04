@@ -1,0 +1,8 @@
+{
+  "id": 153,
+  "name": "explosion",
+  "type": "normal",
+  "power": 250,
+  "accuracy": 100,
+  "pp": 5
+}

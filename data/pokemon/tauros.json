@@ -1,0 +1,23 @@
+{
+  "id": 128,
+  "name": "tauros",
+  "types": [
+    "normal"
+  ],
+  "stats": {
+    "hp": 75,
+    "attack": 100,
+    "defense": 95,
+    "special-attack": 40,
+    "special-defense": 70,
+    "speed": 110
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/128.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/128.png",
+  "moves": [
+    "giga-impact",
+    "double-edge",
+    "outrage",
+    "zen-headbutt"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": 7,
+  "name": "squirtle",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 44,
+    "attack": 48,
+    "defense": 65,
+    "special-attack": 50,
+    "special-defense": 64,
+    "speed": 43
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/7.png",
+  "moves": [
+    "skull-bash",
+    "wave-crash",
+    "hydro-pump",
+    "bite"
+  ]
+}

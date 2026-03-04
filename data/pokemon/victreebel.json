@@ -1,0 +1,24 @@
+{
+  "id": 71,
+  "name": "victreebel",
+  "types": [
+    "grass",
+    "poison"
+  ],
+  "stats": {
+    "hp": 80,
+    "attack": 105,
+    "defense": 65,
+    "special-attack": 100,
+    "special-defense": 70,
+    "speed": 70
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/71.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/71.png",
+  "moves": [
+    "leaf-storm",
+    "power-whip",
+    "poison-jab",
+    "knock-off"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "id": 55,
+  "name": "water-gun",
+  "type": "water",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 25
+}

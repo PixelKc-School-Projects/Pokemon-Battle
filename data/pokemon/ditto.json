@@ -1,0 +1,23 @@
+{
+  "id": 132,
+  "name": "ditto",
+  "types": [
+    "normal"
+  ],
+  "stats": {
+    "hp": 48,
+    "attack": 48,
+    "defense": 48,
+    "special-attack": 48,
+    "special-defense": 48,
+    "speed": 48
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/132.png",
+  "moves": [
+    "tackle",
+    "pound",
+    "body-slam",
+    "double-edge"
+  ]
+}

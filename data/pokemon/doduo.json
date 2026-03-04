@@ -1,0 +1,24 @@
+{
+  "id": 84,
+  "name": "doduo",
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "stats": {
+    "hp": 35,
+    "attack": 85,
+    "defense": 45,
+    "special-attack": 35,
+    "special-defense": 35,
+    "speed": 75
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/84.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/84.png",
+  "moves": [
+    "thrash",
+    "jump-kick",
+    "uproar",
+    "wing-attack"
+  ]
+}

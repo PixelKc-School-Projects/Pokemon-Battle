@@ -1,0 +1,23 @@
+{
+  "id": 120,
+  "name": "staryu",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 30,
+    "attack": 45,
+    "defense": 55,
+    "special-attack": 70,
+    "special-defense": 55,
+    "speed": 85
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/120.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/120.png",
+  "moves": [
+    "hydro-pump",
+    "surf",
+    "psychic",
+    "rapid-spin"
+  ]
+}

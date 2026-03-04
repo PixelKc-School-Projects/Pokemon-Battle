@@ -1,0 +1,23 @@
+{
+  "id": 117,
+  "name": "seadra",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 55,
+    "attack": 65,
+    "defense": 95,
+    "special-attack": 95,
+    "special-defense": 45,
+    "speed": 85
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/117.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/117.png",
+  "moves": [
+    "hydro-pump",
+    "dragon-pulse",
+    "waterfall",
+    "clear-smog"
+  ]
+}

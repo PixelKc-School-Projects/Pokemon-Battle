@@ -1,0 +1,23 @@
+{
+  "id": 77,
+  "name": "ponyta",
+  "types": [
+    "fire"
+  ],
+  "stats": {
+    "hp": 50,
+    "attack": 85,
+    "defense": 55,
+    "special-attack": 65,
+    "special-defense": 65,
+    "speed": 90
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/77.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/77.png",
+  "moves": [
+    "double-edge",
+    "flare-blitz",
+    "fire-blast",
+    "double-kick"
+  ]
+}

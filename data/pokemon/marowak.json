@@ -1,0 +1,23 @@
+{
+  "id": 105,
+  "name": "marowak",
+  "types": [
+    "ground"
+  ],
+  "stats": {
+    "hp": 60,
+    "attack": 80,
+    "defense": 110,
+    "special-attack": 50,
+    "special-defense": 80,
+    "speed": 45
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/105.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/105.png",
+  "moves": [
+    "thrash",
+    "double-edge",
+    "stomping-tantrum",
+    "false-swipe"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": 28,
+  "name": "sandslash",
+  "types": [
+    "ground"
+  ],
+  "stats": {
+    "hp": 75,
+    "attack": 100,
+    "defense": 110,
+    "special-attack": 45,
+    "special-defense": 55,
+    "speed": 65
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/28.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/28.png",
+  "moves": [
+    "earthquake",
+    "dig",
+    "slash",
+    "poison-sting"
+  ]
+}

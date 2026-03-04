@@ -1,0 +1,23 @@
+{
+  "id": 134,
+  "name": "vaporeon",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 130,
+    "attack": 65,
+    "defense": 60,
+    "special-attack": 110,
+    "special-defense": 95,
+    "speed": 65
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/134.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/134.png",
+  "moves": [
+    "last-resort",
+    "double-edge",
+    "hydro-pump",
+    "double-kick"
+  ]
+}

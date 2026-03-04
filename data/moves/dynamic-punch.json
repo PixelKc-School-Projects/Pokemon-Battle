@@ -1,0 +1,8 @@
+{
+  "id": 223,
+  "name": "dynamic-punch",
+  "type": "fighting",
+  "power": 100,
+  "accuracy": 50,
+  "pp": 5
+}

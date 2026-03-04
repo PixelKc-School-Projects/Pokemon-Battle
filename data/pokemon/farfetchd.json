@@ -1,0 +1,24 @@
+{
+  "id": 83,
+  "name": "farfetchd",
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "stats": {
+    "hp": 52,
+    "attack": 90,
+    "defense": 55,
+    "special-attack": 58,
+    "special-defense": 62,
+    "speed": 60
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/83.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/83.png",
+  "moves": [
+    "sky-attack",
+    "brave-bird",
+    "leaf-blade",
+    "false-swipe"
+  ]
+}

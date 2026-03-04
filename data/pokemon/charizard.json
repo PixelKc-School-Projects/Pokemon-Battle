@@ -1,0 +1,24 @@
+{
+  "id": 6,
+  "name": "charizard",
+  "types": [
+    "fire",
+    "flying"
+  ],
+  "stats": {
+    "hp": 78,
+    "attack": 84,
+    "defense": 78,
+    "special-attack": 109,
+    "special-defense": 85,
+    "speed": 100
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/6.png",
+  "moves": [
+    "flare-blitz",
+    "flamethrower",
+    "crunch",
+    "wing-attack"
+  ]
+}

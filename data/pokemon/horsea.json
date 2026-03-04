@@ -1,0 +1,23 @@
+{
+  "id": 116,
+  "name": "horsea",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 30,
+    "attack": 40,
+    "defense": 70,
+    "special-attack": 70,
+    "special-defense": 25,
+    "speed": 60
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/116.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/116.png",
+  "moves": [
+    "hydro-pump",
+    "dragon-pulse",
+    "waterfall",
+    "bubble"
+  ]
+}

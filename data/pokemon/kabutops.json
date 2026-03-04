@@ -1,0 +1,24 @@
+{
+  "id": 141,
+  "name": "kabutops",
+  "types": [
+    "rock",
+    "water"
+  ],
+  "stats": {
+    "hp": 60,
+    "attack": 115,
+    "defense": 105,
+    "special-attack": 65,
+    "special-defense": 70,
+    "speed": 80
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/141.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/141.png",
+  "moves": [
+    "hydro-pump",
+    "stone-edge",
+    "liquidation",
+    "scratch"
+  ]
+}

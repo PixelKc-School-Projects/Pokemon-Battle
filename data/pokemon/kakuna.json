@@ -1,0 +1,24 @@
+{
+  "id": 14,
+  "name": "kakuna",
+  "types": [
+    "bug",
+    "poison"
+  ],
+  "stats": {
+    "hp": 45,
+    "attack": 25,
+    "defense": 50,
+    "special-attack": 25,
+    "special-defense": 25,
+    "speed": 35
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/14.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/14.png",
+  "moves": [
+    "poison-sting",
+    "bug-bite",
+    "tackle",
+    "twineedle"
+  ]
+}

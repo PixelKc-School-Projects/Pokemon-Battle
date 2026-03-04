@@ -1,0 +1,24 @@
+{
+  "id": 73,
+  "name": "tentacruel",
+  "types": [
+    "water",
+    "poison"
+  ],
+  "stats": {
+    "hp": 80,
+    "attack": 70,
+    "defense": 65,
+    "special-attack": 80,
+    "special-defense": 120,
+    "speed": 100
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/73.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/73.png",
+  "moves": [
+    "hydro-pump",
+    "sludge-wave",
+    "surf",
+    "constrict"
+  ]
+}

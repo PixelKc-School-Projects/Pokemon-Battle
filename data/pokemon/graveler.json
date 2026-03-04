@@ -1,0 +1,24 @@
+{
+  "id": 75,
+  "name": "graveler",
+  "types": [
+    "rock",
+    "ground"
+  ],
+  "stats": {
+    "hp": 55,
+    "attack": 95,
+    "defense": 115,
+    "special-attack": 45,
+    "special-defense": 45,
+    "speed": 35
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/75.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/75.png",
+  "moves": [
+    "explosion",
+    "self-destruct",
+    "earthquake",
+    "rollout"
+  ]
+}

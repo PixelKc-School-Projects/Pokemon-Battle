@@ -1,0 +1,23 @@
+{
+  "id": 60,
+  "name": "poliwag",
+  "types": [
+    "water"
+  ],
+  "stats": {
+    "hp": 40,
+    "attack": 50,
+    "defense": 40,
+    "special-attack": 40,
+    "special-defense": 40,
+    "speed": 90
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/60.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/60.png",
+  "moves": [
+    "double-edge",
+    "hydro-pump",
+    "earth-power",
+    "pound"
+  ]
+}

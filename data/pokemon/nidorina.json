@@ -1,0 +1,23 @@
+{
+  "id": 30,
+  "name": "nidorina",
+  "types": [
+    "poison"
+  ],
+  "stats": {
+    "hp": 70,
+    "attack": 62,
+    "defense": 67,
+    "special-attack": 55,
+    "special-defense": 55,
+    "speed": 56
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/30.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/30.png",
+  "moves": [
+    "earth-power",
+    "crunch",
+    "bite",
+    "scratch"
+  ]
+}

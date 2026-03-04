@@ -1,0 +1,8 @@
+{
+  "id": 202,
+  "name": "giga-drain",
+  "type": "grass",
+  "power": 75,
+  "accuracy": 100,
+  "pp": 10
+}

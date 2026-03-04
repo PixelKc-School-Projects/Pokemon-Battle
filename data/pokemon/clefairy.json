@@ -1,0 +1,23 @@
+{
+  "id": 35,
+  "name": "clefairy",
+  "types": [
+    "fairy"
+  ],
+  "stats": {
+    "hp": 70,
+    "attack": 45,
+    "defense": 48,
+    "special-attack": 60,
+    "special-defense": 65,
+    "speed": 35
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/35.png",
+  "moves": [
+    "double-edge",
+    "moonblast",
+    "psychic",
+    "pound"
+  ]
+}

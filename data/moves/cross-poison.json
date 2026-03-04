@@ -1,0 +1,8 @@
+{
+  "id": 440,
+  "name": "cross-poison",
+  "type": "poison",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 20
+}

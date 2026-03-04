@@ -1,0 +1,23 @@
+{
+  "id": 37,
+  "name": "vulpix",
+  "types": [
+    "fire"
+  ],
+  "stats": {
+    "hp": 38,
+    "attack": 41,
+    "defense": 40,
+    "special-attack": 50,
+    "special-defense": 65,
+    "speed": 65
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/37.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/37.png",
+  "moves": [
+    "fire-blast",
+    "flamethrower",
+    "extrasensory",
+    "tackle"
+  ]
+}

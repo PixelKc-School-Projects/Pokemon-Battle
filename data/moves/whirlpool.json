@@ -1,0 +1,8 @@
+{
+  "id": 250,
+  "name": "whirlpool",
+  "type": "water",
+  "power": 35,
+  "accuracy": 85,
+  "pp": 15
+}

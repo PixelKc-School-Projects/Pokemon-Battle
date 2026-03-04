@@ -1,0 +1,24 @@
+{
+  "id": 47,
+  "name": "parasect",
+  "types": [
+    "bug",
+    "grass"
+  ],
+  "stats": {
+    "hp": 60,
+    "attack": 95,
+    "defense": 80,
+    "special-attack": 60,
+    "special-defense": 80,
+    "speed": 30
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/47.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/47.png",
+  "moves": [
+    "energy-ball",
+    "x-scissor",
+    "leech-life",
+    "scratch"
+  ]
+}

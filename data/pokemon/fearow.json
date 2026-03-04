@@ -1,0 +1,24 @@
+{
+  "id": 22,
+  "name": "fearow",
+  "types": [
+    "normal",
+    "flying"
+  ],
+  "stats": {
+    "hp": 65,
+    "attack": 90,
+    "defense": 65,
+    "special-attack": 61,
+    "special-defense": 61,
+    "speed": 100
+  },
+  "sprite_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/22.png",
+  "sprite_url_back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/22.png",
+  "moves": [
+    "sky-attack",
+    "take-down",
+    "drill-peck",
+    "pursuit"
+  ]
+}
