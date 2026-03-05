@@ -66,8 +66,7 @@ def is_fainted(pokemon):
     Returns:
         bool: True if current_hp is 0, False otherwise
     """
-    if pokemon["current_hp"] <= 0:
-        return True
+    return pokemon["current_hp"] <= 0
 
 
 def get_stat(pokemon, stat_name):
