@@ -59,7 +59,7 @@ def get_current_pokemon(team):
     Returns:
         dict | None: The active Pokemon dictionary, or None if team is empty or index invalid
     """
-    if team["current_pokemon_index"] <= len(team["pokemon_list"]) - 1:
+    if 0 >= team["current_pokemon_index"] < len(team["pokemon_list"]):
         return team["pokemon_list"][team["current_pokemon_index"]]
     return None
 
@@ -75,7 +75,7 @@ def switch_pokemon(team, index):
     Returns:
         bool: True if switch was successful, False if index is invalid
     """
-    if 0 <= index <= len(team["pokemon_list"]) - 1:
+    if 0 <= index < len(team.get("pokemon_list", [])):
         team["current_pokemon_index"] = index
         return True
     return False
@@ -91,10 +91,10 @@ def all_fainted(team):
     Returns:
         bool: True if all Pokemon are fainted, False otherwise
     """
-    for pokemon in team["pokemon_list"]:
+    for pokemon in team.get("pokemon_list", []):
         if not is_fainted(pokemon):
-            return False
-    return True
+            return True
+    return False
 
 
 def get_available_pokemon(team):
