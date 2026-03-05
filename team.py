@@ -43,7 +43,7 @@ def add_pokemon(team, pokemon):
     Returns:
         bool: True if Pokemon was added, False if team is full (6 Pokemon)
     """
-    if team["pokemon_list"] < 6:
+    if len(team["pokemon_list"]) < 6:
         team["pokemon_list"].append(pokemon)
         return True
     return False
