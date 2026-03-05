@@ -93,8 +93,8 @@ def all_fainted(team):
     """
     for pokemon in team.get("pokemon_list", []):
         if not is_fainted(pokemon):
-            return True
-    return False
+            return False
+    return True
 
 
 def get_available_pokemon(team):
