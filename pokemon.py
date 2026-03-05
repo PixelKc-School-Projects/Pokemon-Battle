@@ -80,4 +80,4 @@ def get_stat(pokemon, stat_name):
     Returns:
         int: The stat value, or 0 if stat doesn't exist
     """
-    return pokemon.get(stat_name, 0)
+    return pokemon.get("stats", {}).get(stat_name, 0)
