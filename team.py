@@ -142,7 +142,7 @@ def get_team_size(team):
     Returns:
         int: Number of Pokemon in pokemon_list
     """
-    return len(team["pokemon_list"])
+    return len(team.get("pokemon_list", []))
 
 
 def team_to_string(team):
