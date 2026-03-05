@@ -30,4 +30,4 @@ def check_hit(move):
         bool: True if move hits, False if it misses
     """
     number = random.randint(1, 100)
-    return number <= move["accuracy"]
+    return number <= move.get("accuracy", 0)
