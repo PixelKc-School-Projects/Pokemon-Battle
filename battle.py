@@ -229,14 +229,8 @@ def switch_pokemon_in_battle(battle, owner, pokemon_index):
     if pokemon_switch:
         new_pokemon = get_current_pokemon(team)
         add_to_history(battle, f"{owner} switched to {new_pokemon}!")
-
-    # TODO 4.2: Switch Pokemon and add switch event to history
-    # TODO 4.2.1: Get the correct team from battle based on owner
-    # TODO 4.2.2: Call switch_pokemon() with team and pokemon_index, store success
-    # TODO 4.2.3: If successful, get new current Pokemon and create switch message
-    # TODO 4.2.4: Add switch message to battle history using add_to_history()
-    # TODO 4.2.5: Return success
-    pass
+        return True
+    return False
 
 
 def add_to_history(battle, event):
