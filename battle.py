@@ -178,13 +178,12 @@ def execute_turn(battle):
     first_owner, first_pokemon = turn_order[0]
     second_owner, second_pokemon = turn_order[1]
 
-    first_defender_owner = "ai" if first_owner == "player" else "player"
-    first_attack = execute_single_attack(battle, first_owner, first_defender_owner)
+    first_attack = execute_single_attack(battle, first_owner, second_owner)
     if first_attack["defender_fainted"]:
         return {"first_attack": first_attack, "second_attack": None, "turn_order": turn_order}
     
-    second_defender_owner = "ai" if second_owner == "player" else "player"
-    second_attack = execute_single_attack(battle, second_owner, second_defender_owner)
+    second_attack = execute_single_attack(battle, second_owner, first_owner)
+    
 
     return {"first_attack": first_attack, "second_attack": second_attack, "turn_order": turn_order}
 
