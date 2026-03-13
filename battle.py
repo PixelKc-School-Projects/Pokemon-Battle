@@ -207,9 +207,6 @@ def check_battle_over(battle):
         return "ai_wins"
     else:
         return None
-    # TODO 4: Battle State Management
-    # TODO 4.1: Check if either team all_fainted, return win state or None
-    pass
 
 
 def switch_pokemon_in_battle(battle, owner, pokemon_index):
