@@ -56,7 +56,7 @@ def determine_turn_order(battle):
     player_pokemon = get_current_pokemon(battle['player_team'])
     ai_pokemon = get_current_pokemon(battle['ai_team'])
     if player_pokemon is None or ai_pokemon is None:
-        return [{"player", player_pokemon}, {"ai", ai_pokemon}]
+        return (("player", player_pokemon), {"ai", ai_pokemon})
     player_speed = get_stat(player_pokemon, "speed")
     ai_speed = get_stat(ai_pokemon, "speed")
 
