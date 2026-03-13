@@ -183,7 +183,7 @@ def execute_turn(battle):
         return {"first_attack": first_attack, "second_attack": None, "turn_order": turn_order}
     
     second_attack = execute_single_attack(battle, second_owner, first_owner)
-    
+
 
     return {"first_attack": first_attack, "second_attack": second_attack, "turn_order": turn_order}
 
@@ -200,9 +200,9 @@ def check_battle_over(battle):
                     "ai_wins" if player team is defeated,
                     None if battle continues
     """
-    if all_fainted(battle["player_team"]):
+    if all_fainted(battle["ai_team"]):
         return "player_wins"
-    elif all_fainted(battle["ai_team"]):
+    elif all_fainted(battle["player_team"]):
         return "ai_wins"
     else:
         return None
