@@ -40,9 +40,7 @@ def get_hp_percentage(pokemon):
     Returns:
         float: HP percentage (0.0 to 1.0)
     """
-    if not pokemon["max_hp"] <= 0:
-        return pokemon["current_hp"] / pokemon["max_hp"]
-    return 0
+    return pokemon["current_hp"] / pokemon["max_hp"] if pokemon["max_hp"] > 0 else 0.0
 
 
 def take_damage(pokemon, amount):
@@ -80,4 +78,4 @@ def get_stat(pokemon, stat_name):
     Returns:
         int: The stat value, or 0 if stat doesn't exist
     """
-    return pokemon.get("stats", {}).get(stat_name, 0)
+    return pokemon["stats"].get(stat_name, 0)

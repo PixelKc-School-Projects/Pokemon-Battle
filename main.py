@@ -260,14 +260,17 @@ def run_battle(player_team, ai_team):
 
     # Main battle loop
     while True:
-        # Check if battle is over first (inline check)
-        if all_fainted(battle["ai_team"]):
-            print("\n🎉 YOU WIN! 🎉")
-            print("All opponent's Pokemon have fainted!")
-            break
-        elif all_fainted(battle["player_team"]):
-            print("\n💀 YOU LOSE! 💀")
-            print("All your Pokemon have fainted!")
+        # Check if battle is over first
+        result = check_battle_over(battle)
+        if result:
+            if result == "player_wins":
+                print("\n🎉 YOU WIN! 🎉")
+                print("All opponent's Pokemon have fainted!")
+            else:
+                print("\n💀 YOU LOSE! 💀")
+                print("All your Pokemon have fainted!")
+
+            print("\n" + get_battle_summary(battle))
             break
 
         # State 1: Action Menu (with arrow key navigation)
@@ -277,45 +280,69 @@ def run_battle(player_team, ai_team):
         ai_pokemon = get_current_pokemon(battle["ai_team"])
 
         if action == 'fight':
-            # State 2: Battle Readout - Simplified turn (player always goes first)
-            # Player attacks first
-            first_attack = execute_single_attack(battle, "player", "ai")
+            # State 2: Battle Readout - Sequential Attacks (damage applied by battle.py)
+            turn_result = execute_turn(battle)
+
+            # Display first attack
+            first_attack = turn_result["first_attack"]
             display_battle_readout_screen(battle, first_attack["messages"])
 
+            # Update HP bar display to show damage
             if first_attack["hit"] and first_attack["damage"] > 0:
                 update_hp_bar_in_place(battle, first_attack["defender"])
 
+            # Move cursor to bottom for input prompt
             move_cursor(18, 1)
             input("│ Press Enter to continue...")
 
-            # AI attacks second (if not fainted)
-            if not first_attack["defender_fainted"]:
-                second_attack = execute_single_attack(battle, "ai", "player")
+            # Display second attack (if it happened)
+            if turn_result["second_attack"] is not None:
+                second_attack = turn_result["second_attack"]
                 display_battle_readout_screen(battle, second_attack["messages"])
 
+                # Update HP bar display to show damage
                 if second_attack["hit"] and second_attack["damage"] > 0:
                     update_hp_bar_in_place(battle, second_attack["defender"])
 
+                # Move cursor to bottom for input prompt
                 move_cursor(18, 1)
                 input("│ Press Enter to continue...")
 
-                # Handle AI Pokemon fainting
-                if second_attack["defender_fainted"]:
-                    if not all_fainted(battle["player_team"]):
-                        switch_index = get_forced_switch_choice(battle["player_team"])
-                        switch_pokemon(battle["player_team"], switch_index)
+            # Handle fainting - check both attacks for fainted status
+            first_defender_fainted = first_attack["defender_fainted"]
+            second_defender_fainted = (turn_result["second_attack"] is not None and
+                                      turn_result["second_attack"]["defender_fainted"])
 
-            # Handle Player Pokemon fainting from first attack
-            if first_attack["defender_fainted"]:
+            # Determine which Pokemon fainted based on attack results
+            if first_attack["defender"] == "player" and first_defender_fainted:
+                # Player's Pokemon fainted
+                if not all_fainted(battle["player_team"]):
+                    switch_index = get_forced_switch_choice(battle["player_team"])
+                    switch_pokemon_in_battle(battle, "player", switch_index)
+            elif first_attack["defender"] == "ai" and first_defender_fainted:
+                # AI's Pokemon fainted
                 if not all_fainted(battle["ai_team"]):
                     switch_index = ai_select_switch(battle["ai_team"])
-                    switch_pokemon(battle["ai_team"], switch_index)
+                    switch_pokemon_in_battle(battle, "ai", switch_index)
+
+            # Check second attack fainting (only if it occurred)
+            if second_defender_fainted:
+                if turn_result["second_attack"]["defender"] == "player":
+                    # Player's Pokemon fainted
+                    if not all_fainted(battle["player_team"]):
+                        switch_index = get_forced_switch_choice(battle["player_team"])
+                        switch_pokemon_in_battle(battle, "player", switch_index)
+                elif turn_result["second_attack"]["defender"] == "ai":
+                    # AI's Pokemon fainted
+                    if not all_fainted(battle["ai_team"]):
+                        switch_index = ai_select_switch(battle["ai_team"])
+                        switch_pokemon_in_battle(battle, "ai", switch_index)
 
         elif action == 'pokemon':
             # Switch Pokemon flow using arrow key navigation
             switch_index = get_pokemon_selection_with_arrows(battle["player_team"], allow_cancel=True)
             if switch_index is not None:
-                switch_pokemon(battle["player_team"], switch_index)
+                switch_pokemon_in_battle(battle, "player", switch_index)
 
 
 def main():

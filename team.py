@@ -29,7 +29,10 @@ def create_team():
     Returns:
         dict: Empty team dictionary
     """
-    return {"pokemon_list": [], "current_pokemon_index": 0}
+    return {
+        "pokemon_list": [],
+        "current_pokemon_index": 0
+    }
 
 
 def add_pokemon(team, pokemon):
@@ -46,7 +49,8 @@ def add_pokemon(team, pokemon):
     if len(team["pokemon_list"]) < 6:
         team["pokemon_list"].append(pokemon)
         return True
-    return False
+    else:
+        return False
 
 
 def get_current_pokemon(team):
@@ -59,9 +63,13 @@ def get_current_pokemon(team):
     Returns:
         dict | None: The active Pokemon dictionary, or None if team is empty or index invalid
     """
-    if 0 >= team["current_pokemon_index"] < len(team["pokemon_list"]):
-        return team["pokemon_list"][team["current_pokemon_index"]]
-    return None
+    index = team["current_pokemon_index"]
+    pokemon_list = team["pokemon_list"]
+
+    if 0 <= index < len(pokemon_list):
+        return pokemon_list[index]
+    else:
+        return None
 
 
 def switch_pokemon(team, index):
@@ -75,10 +83,11 @@ def switch_pokemon(team, index):
     Returns:
         bool: True if switch was successful, False if index is invalid
     """
-    if 0 <= index < len(team.get("pokemon_list", [])):
+    if 0 <= index < len(team["pokemon_list"]):
         team["current_pokemon_index"] = index
         return True
-    return False
+    else:
+        return False
 
 
 def all_fainted(team):
@@ -91,7 +100,7 @@ def all_fainted(team):
     Returns:
         bool: True if all Pokemon are fainted, False otherwise
     """
-    for pokemon in team.get("pokemon_list", []):
+    for pokemon in team["pokemon_list"]:
         if not is_fainted(pokemon):
             return False
     return True
@@ -142,7 +151,7 @@ def get_team_size(team):
     Returns:
         int: Number of Pokemon in pokemon_list
     """
-    return len(team.get("pokemon_list", []))
+    return len(team["pokemon_list"])
 
 
 def team_to_string(team):
