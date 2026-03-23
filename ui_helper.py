@@ -19,9 +19,14 @@ Students can use these functions without needing to understand the implementatio
 import os
 import sys
 import time
+from typing import Optional, TYPE_CHECKING
 
-from team import *
-from pokemon import *
+# Avoid circular imports
+if TYPE_CHECKING:
+    from battle import Battle
+    from team import Team
+    from pokemon import Pokemon
+    from move import Move
 
 # Configuration
 ENABLE_TEXT_ANIMATION = True  # Toggle for Pokemon-style slow text printing
@@ -117,43 +122,43 @@ def clear_screen():
         os.system('clear')
 
 
-def move_cursor(row, col):
+def move_cursor(row: int, col: int):
     """Move cursor to specific position (1-indexed)."""
     print(f'\033[{row};{col}H', end='')
     sys.stdout.flush()
 
 
-def update_hp_bar_in_place(battle, defender_owner):
+def update_hp_bar_in_place(battle: 'Battle', defender_owner: str):
     """
     Update the HP bar in place using cursor positioning.
 
     Args:
-        battle: The battle dictionary
+        battle: The Battle object
         defender_owner: "player" or "ai" - whose HP bar to update
     """
     if defender_owner == "ai":
         # AI Pokemon HP is on row 6
-        pokemon = get_current_pokemon(battle["ai_team"])
+        pokemon = battle.ai_team.get_current_pokemon()
         row = 6
     else:
         # Player Pokemon HP is on row 9
-        pokemon = get_current_pokemon(battle["player_team"])
+        pokemon = battle.player_team.get_current_pokemon()
         row = 9
 
     if not pokemon:
         return
 
     # Build the HP line
-    hp_percent = get_hp_percentage(pokemon) * 100
+    hp_percent = pokemon.get_hp_percentage() * 100
     hp_bar_length = 20
-    hp_filled = int(hp_bar_length * get_hp_percentage(pokemon))
+    hp_filled = int(hp_bar_length * pokemon.get_hp_percentage())
     hp_bar = "█" * hp_filled + "░" * (hp_bar_length - hp_filled)
 
     if defender_owner == "ai":
-        hp_line = f"  HP: {pokemon['current_hp']}/{pokemon['max_hp']} [{hp_bar}] {hp_percent:.0f}%"
+        hp_line = f"  HP: {pokemon.current_hp}/{pokemon.max_hp} [{hp_bar}] {hp_percent:.0f}%"
         hp_line_with_padding = "│" + hp_line + " " * (58 - len(hp_line)) + "│"
     else:
-        hp_line = f"HP: {pokemon['current_hp']}/{pokemon['max_hp']} [{hp_bar}] {hp_percent:.0f}%  "
+        hp_line = f"HP: {pokemon.current_hp}/{pokemon.max_hp} [{hp_bar}] {hp_percent:.0f}%  "
         padding = " " * (58 - len(hp_line))
         hp_line_with_padding = "│" + padding + hp_line + "│"
 
@@ -163,7 +168,7 @@ def update_hp_bar_in_place(battle, defender_owner):
     sys.stdout.flush()
 
 
-def print_slowly(text, delay=0.03, add_newline=True):
+def print_slowly(text: str, delay: float = 0.03, add_newline: bool = True):
     """
     Print text character by character like in Pokemon games.
 
@@ -181,7 +186,7 @@ def print_slowly(text, delay=0.03, add_newline=True):
 
 # Text Layout Helper Functions
 
-def wrap_text(text, max_width=56):
+def wrap_text(text: str, max_width: int = 56) -> list[str]:
     """
     Wrap text to fit within max_width, breaking at spaces.
 
@@ -215,20 +220,20 @@ def wrap_text(text, max_width=56):
 
 # Drawing Functions
 
-def draw_pokemon_header(battle):
+def draw_pokemon_header(battle: 'Battle') -> list[str]:
     """
     Draw the Pokemon header section (lines 1-10).
 
     Args:
-        battle: The battle dictionary
+        battle: The Battle object
 
     Returns:
         List of 10 strings for the header
     """
     lines = []
 
-    player_pokemon = get_current_pokemon(battle["player_team"])
-    ai_pokemon = get_current_pokemon(battle["ai_team"])
+    player_pokemon = battle.player_team.get_current_pokemon()
+    ai_pokemon = battle.ai_team.get_current_pokemon()
 
     # Header
     lines.append("┌" + "─" * 58 + "┐")
@@ -238,16 +243,16 @@ def draw_pokemon_header(battle):
     # Opponent Pokemon area
     lines.append("│" + " " * 58 + "│")
     if ai_pokemon:
-        types_str = "/".join([t.capitalize() for t in ai_pokemon["types"]])
-        hp_percent = get_hp_percentage(ai_pokemon) * 100
+        types_str = "/".join([t.name.capitalize() for t in ai_pokemon.types])
+        hp_percent = ai_pokemon.get_hp_percentage() * 100
         hp_bar_length = 20
-        hp_filled = int(hp_bar_length * get_hp_percentage(ai_pokemon))
+        hp_filled = int(hp_bar_length * ai_pokemon.get_hp_percentage())
         hp_bar = "█" * hp_filled + "░" * (hp_bar_length - hp_filled)
 
-        opponent_line = f"  OPPONENT: {ai_pokemon['name'].upper()} ({types_str})"
+        opponent_line = f"  OPPONENT: {ai_pokemon.name.upper()} ({types_str})"
         lines.append("│" + opponent_line + " " * (58 - len(opponent_line)) + "│")
 
-        hp_line = f"  HP: {ai_pokemon['current_hp']}/{ai_pokemon['max_hp']} [{hp_bar}] {hp_percent:.0f}%"
+        hp_line = f"  HP: {ai_pokemon.current_hp}/{ai_pokemon.max_hp} [{hp_bar}] {hp_percent:.0f}%"
         lines.append("│" + hp_line + " " * (58 - len(hp_line)) + "│")
     else:
         lines.append("│  OPPONENT: (None)" + " " * 40 + "│")
@@ -257,17 +262,17 @@ def draw_pokemon_header(battle):
 
     # Player Pokemon area
     if player_pokemon:
-        types_str = "/".join([t.capitalize() for t in player_pokemon["types"]])
-        hp_percent = get_hp_percentage(player_pokemon) * 100
+        types_str = "/".join([t.name.capitalize() for t in player_pokemon.types])
+        hp_percent = player_pokemon.get_hp_percentage() * 100
         hp_bar_length = 20
-        hp_filled = int(hp_bar_length * get_hp_percentage(player_pokemon))
+        hp_filled = int(hp_bar_length * player_pokemon.get_hp_percentage())
         hp_bar = "█" * hp_filled + "░" * (hp_bar_length - hp_filled)
 
-        player_line = f"YOU: {player_pokemon['name'].upper()} ({types_str})  "
+        player_line = f"YOU: {player_pokemon.name.upper()} ({types_str})  "
         padding = " " * (58 - len(player_line))
         lines.append("│" + padding + player_line + "│")
 
-        hp_line = f"HP: {player_pokemon['current_hp']}/{player_pokemon['max_hp']} [{hp_bar}] {hp_percent:.0f}%  "
+        hp_line = f"HP: {player_pokemon.current_hp}/{player_pokemon.max_hp} [{hp_bar}] {hp_percent:.0f}%  "
         padding = " " * (58 - len(hp_line))
         lines.append("│" + padding + hp_line + "│")
     else:
@@ -279,7 +284,7 @@ def draw_pokemon_header(battle):
     return lines
 
 
-def draw_action_menu(pokemon_name, selected_action=1):
+def draw_action_menu(pokemon_name: str, selected_action: int = 1) -> list[str]:
     """
     Draw the action menu (What will Pokemon do? + FIGHT/POKEMON).
 
@@ -318,7 +323,92 @@ def draw_action_menu(pokemon_name, selected_action=1):
     return lines
 
 
-def draw_message_area():
+def draw_move_grid(pokemon: 'Pokemon', selected_move_index: int) -> list[str]:
+    """
+    Draw the 2x2 move grid with type/PP info.
+
+    Args:
+        pokemon: The Pokemon whose moves to display
+        selected_move_index: Which move is selected (1-4)
+
+    Returns:
+        List of 9 strings for the move grid section
+    """
+    lines = []
+
+    # Get all 4 moves
+    moves = []
+    for i in range(1, 5):
+        move = pokemon.get_move(i)
+        moves.append(move)
+
+    # Get selected move info
+    selected_move = moves[selected_move_index - 1] if selected_move_index in range(1, 5) else None
+
+    # Helper function to center text in cell
+    def center_in_cell(text: str, width: int = 19) -> str:
+        if len(text) > width:
+            text = text[:width - 3] + "..."
+        padding = width - len(text)
+        left_pad = padding // 2
+        right_pad = padding - left_pad
+        return " " * left_pad + text + " " * right_pad
+
+    # Helper function to format move name
+    def format_move(move: Optional['Move'], move_num: int) -> str:
+        if move is None:
+            return center_in_cell("---")
+
+        move_name = move.name.upper()
+        if move_num == selected_move_index:
+            # Add selection markers
+            marked = f"> {move_name} <"
+            return center_in_cell(marked)
+        else:
+            return center_in_cell(move_name)
+
+    # Build grid
+    lines.append("├" + "─" * 58 + "┤")
+
+    # Row 1: Top cells
+    lines.append("│" + " " * 19 + "│" + " " * 19 + "│" + " " * 18 + "│")
+
+    move1_text = format_move(moves[0], 1)
+    move2_text = format_move(moves[1], 2)
+    type_text = ""
+    if selected_move:
+        type_name = selected_move.move_type.name.upper()
+        type_text = center_in_cell(type_name, 18)
+    else:
+        type_text = " " * 18
+
+    lines.append("│" + move1_text + "│" + move2_text + "│" + type_text + "│")
+    lines.append("│" + " " * 19 + "│" + " " * 19 + "│" + " " * 18 + "│")
+
+    # Horizontal divider
+    lines.append("│" + "─" * 19 + "│" + "─" * 19 + "│" + " " * 18 + "│")
+
+    # Row 2: Bottom cells with PP on separate line above moves
+    pp_text = ""
+    if selected_move:
+        pp_str = f"PP: {selected_move.current_pp}/{selected_move.pp}"
+        pp_text = center_in_cell(pp_str, 18)
+    else:
+        pp_text = " " * 18
+
+    lines.append("│" + " " * 19 + "│" + " " * 19 + "│" + pp_text + "│")
+
+    move3_text = format_move(moves[2], 3)
+    move4_text = format_move(moves[3], 4)
+
+    lines.append("│" + move3_text + "│" + move4_text + "│" + " " * 18 + "│")
+    lines.append("│" + " " * 19 + "│" + " " * 19 + "│" + " " * 18 + "│")
+    lines.append("└" + "─" * 58 + "┘")
+
+    return lines
+
+
+def draw_message_area() -> list[str]:
     """
     Draw empty message area for battle readout.
 
@@ -335,7 +425,7 @@ def draw_message_area():
     return lines
 
 
-def draw_pokemon_select_grid(team, selected_slot):
+def draw_pokemon_select_grid(team: 'Team', selected_slot: int) -> list[str]:
     """
     Draw the Pokemon selection grid (2x3 grid + Cancel button).
 
@@ -346,18 +436,18 @@ def draw_pokemon_select_grid(team, selected_slot):
               Cancel
 
     Args:
-        team: The player's team dictionary
+        team: The player's team
         selected_slot: Which slot is selected (1-6 for Pokemon, 7 for Cancel)
 
     Returns:
         List of 16 strings for the Pokemon select screen
     """
     lines = []
-    pokemon_list = team["pokemon_list"]
+    pokemon_list = team.pokemon_list
 
     # Helper function to format Pokemon name with selection indicator
-    def format_pokemon_name(pokemon, slot_num, width=28):
-        name = pokemon["name"].capitalize()
+    def format_pokemon_name(pokemon: 'Pokemon', slot_num: int, width: int = 28) -> str:
+        name = pokemon.name.capitalize()
         if slot_num == selected_slot:
             # Add selection markers
             name_with_markers = f" > {name} <"
@@ -370,19 +460,19 @@ def draw_pokemon_select_grid(team, selected_slot):
         return name_with_markers + " " * (width - len(name_with_markers))
 
     # Helper function to format type string
-    def format_types(pokemon, width=28):
-        types_str = "/".join([t for t in pokemon["types"]])
+    def format_types(pokemon: 'Pokemon', width: int = 28) -> str:
+        types_str = "/".join([t.name for t in pokemon.types])
         formatted = f"   ({types_str})"
         if len(formatted) > width:
             formatted = formatted[:width]
         return formatted + " " * (width - len(formatted))
 
     # Helper function to format HP/status
-    def format_hp(pokemon, width=28):
-        if is_fainted(pokemon):
+    def format_hp(pokemon: 'Pokemon', width: int = 28) -> str:
+        if pokemon.is_fainted():
             status = "   FAINTED"
         else:
-            status = f"   HP: {pokemon['current_hp']}/{pokemon['max_hp']}"
+            status = f"   HP: {pokemon.current_hp}/{pokemon.max_hp}"
         if len(status) > width:
             status = status[:width]
         return status + " " * (width - len(status))
@@ -485,7 +575,7 @@ def draw_pokemon_select_grid(team, selected_slot):
 
 # Message Printing Functions
 
-def print_message_slowly_in_box(messages, start_row=13):
+def print_message_slowly_in_box(messages: list[str], start_row: int = 13):
     """
     Print messages character-by-character inside the message box using cursor positioning.
 
@@ -520,7 +610,7 @@ def print_message_slowly_in_box(messages, start_row=13):
     sys.stdout.flush()
 
 
-def print_messages_in_box(messages, start_row=13):
+def print_messages_in_box(messages: list[str], start_row: int = 13):
     """
     Print messages instantly inside the message box using cursor positioning.
 
@@ -554,17 +644,17 @@ def print_messages_in_box(messages, start_row=13):
 
 # Screen Display Functions
 
-def display_action_menu_screen(battle, selected_action=1):
+def display_action_menu_screen(battle: 'Battle', selected_action: int = 1) -> None:
     """
     Display the action menu screen (What will Pokemon do? + FIGHT/POKEMON).
 
     Args:
-        battle: The battle dictionary
+        battle: The Battle object
         selected_action: 1=FIGHT (default), 2=POKEMON
     """
     clear_screen()
-    player_pokemon = get_current_pokemon(battle["player_team"])
-    pokemon_name = player_pokemon["name"].capitalize() if player_pokemon else "Pokemon"
+    player_pokemon = battle.player_team.get_current_pokemon()
+    pokemon_name = player_pokemon.name.capitalize() if player_pokemon else "Pokemon"
 
     header = draw_pokemon_header(battle)
     menu = draw_action_menu(pokemon_name, selected_action)
@@ -573,12 +663,30 @@ def display_action_menu_screen(battle, selected_action=1):
         print(line)
 
 
-def display_battle_readout_screen(battle, messages):
+def display_move_selection_screen(battle: 'Battle', selected_move_index: int) -> None:
+    """
+    Display the move selection screen with 2x2 grid.
+
+    Args:
+        battle: The Battle object
+        selected_move_index: Which move is currently selected (1-4)
+    """
+    clear_screen()
+    player_pokemon = battle.player_team.get_current_pokemon()
+
+    header = draw_pokemon_header(battle)
+    move_grid = draw_move_grid(player_pokemon, selected_move_index)
+
+    for line in header + move_grid:
+        print(line)
+
+
+def display_battle_readout_screen(battle: 'Battle', messages: list[str]) -> None:
     """
     Display the battle readout screen with cursor-positioned messages.
 
     Args:
-        battle: The battle dictionary
+        battle: The Battle object
         messages: List of battle messages to display
     """
     clear_screen()
@@ -596,12 +704,12 @@ def display_battle_readout_screen(battle, messages):
         print_messages_in_box(messages, start_row=13)
 
 
-def display_pokemon_select_screen(team, selected_slot):
+def display_pokemon_select_screen(team: 'Team', selected_slot: int) -> None:
     """
     Display the Pokemon selection screen with 2x3 grid + Cancel button.
 
     Args:
-        team: The player's team dictionary
+        team: The player's team
         selected_slot: Which slot is selected (1-6 for Pokemon, 7 for Cancel)
     """
     clear_screen()

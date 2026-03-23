@@ -4,19 +4,22 @@ Data Loader Module
 This module handles loading JSON data files and creating Python objects:
 - Load Pokemon from JSON files
 - Load Moves from JSON files
-- Convert JSON data into Pokemon/Move dictionaries
+- Create the type system (all 18 Type objects)
+- Convert JSON data into Pokemon/Move objects
 
 This demonstrates separation of concerns - data loading is separate from game logic.
 """
 
 import json
 import os
+from typing import Dict, Any, Optional
 
-# Types are strings, Moves are dictionaries, Pokemon are dictionaries
-# No class imports needed - we work with plain data structures
+from type_system import Type
+from pokemon import Pokemon
+from move import Move
 
 
-def calculate_hp(base_hp, level=50):
+def calculate_hp(base_hp: int, level: int = 50) -> int:
     """
     Calculate actual HP from base stat using simplified Pokemon formula (no IVs/EVs).
 
@@ -32,7 +35,7 @@ def calculate_hp(base_hp, level=50):
     return ((2 * base_hp) * level // 100) + level + 10
 
 
-def calculate_stat(base_stat, level=50):
+def calculate_stat(base_stat: int, level: int = 50) -> int:
     """
     Calculate actual stat from base stat using simplified Pokemon formula (no IVs/EVs).
 
@@ -48,18 +51,36 @@ def calculate_stat(base_stat, level=50):
     return ((2 * base_stat) * level // 100) + 5
 
 
-def get_all_type_names():
+def create_type_system() -> Dict[str, Type]:
     """
-    Get a list of all valid Pokemon type names.
+    Create all 18 Type objects and return them in a dictionary.
 
     Returns:
-        list[str]: List of all type names
+        dict[str, Type]: Dictionary mapping type names (strings) to Type objects
     """
-    from type_system import get_all_type_names as _get_all_type_names
-    return _get_all_type_names()
+    return {
+        "normal": Type("normal"),
+        "fire": Type("fire"),
+        "water": Type("water"),
+        "electric": Type("electric"),
+        "grass": Type("grass"),
+        "ice": Type("ice"),
+        "fighting": Type("fighting"),
+        "poison": Type("poison"),
+        "ground": Type("ground"),
+        "flying": Type("flying"),
+        "psychic": Type("psychic"),
+        "bug": Type("bug"),
+        "rock": Type("rock"),
+        "ghost": Type("ghost"),
+        "dragon": Type("dragon"),
+        "dark": Type("dark"),
+        "steel": Type("steel"),
+        "fairy": Type("fairy")
+    }
 
 
-def load_pokemon_data(pokemon_name):
+def load_pokemon_data(pokemon_name: str) -> Dict[str, Any]:
     """
     Load Pokemon data from JSON file.
 
@@ -79,7 +100,7 @@ def load_pokemon_data(pokemon_name):
         return json.load(f)
 
 
-def load_move_data(move_name):
+def load_move_data(move_name: str) -> Dict[str, Any]:
     """
     Load Move data from JSON file.
 
@@ -99,37 +120,50 @@ def load_move_data(move_name):
         return json.load(f)
 
 
-def create_move_from_data(move_data):
+def create_move_from_data(move_data: Dict[str, Any], type_system: Dict[str, Type]) -> Move:
     """
-    Create a move dictionary from JSON data.
+    Create a Move object from JSON data.
 
     Args:
         move_data: Dictionary containing move data from JSON
+        type_system: Dictionary mapping type names to Type objects
 
     Returns:
-        dict: Move dictionary with keys: name, type, power, accuracy
+        Move: Created Move object
     """
-    return {
-        "name": move_data["name"],
-        "type": move_data["type"],
-        "power": move_data["power"],
-        "accuracy": move_data["accuracy"]
-    }
+    move_type = type_system.get(move_data["type"], type_system["normal"])
+
+    return Move(
+        name=move_data["name"],
+        move_type=move_type,
+        power=move_data["power"],
+        accuracy=move_data["accuracy"],
+        pp=move_data["pp"]
+    )
 
 
-def create_pokemon_from_data(pokemon_data, move_name=None):
+def create_pokemon_from_data(
+    pokemon_data: Dict[str, Any],
+    type_system: Dict[str, Type],
+    move_names: Optional[list[str]] = None
+) -> Pokemon:
     """
-    Create a Pokemon dictionary from JSON data.
+    Create a Pokemon object from JSON data.
 
     Args:
         pokemon_data: Dictionary containing Pokemon data from JSON
-        move_name: Optional move name to load. If None, uses first move from pokemon_data.
+        type_system: Dictionary mapping type names to Type objects
+        move_names: Optional list of move names to load (1-4 moves).
+                    If None, uses moves from pokemon_data.
 
     Returns:
-        dict: Pokemon dictionary with all attributes
+        Pokemon: Created Pokemon object with moves loaded
     """
-    # Get Pokemon types as a list of type name strings from JSON
-    pokemon_types = pokemon_data["types"]
+    # Get Pokemon types
+    pokemon_types = []
+    for type_name in pokemon_data["types"]:
+        if type_name in type_system:
+            pokemon_types.append(type_system[type_name])
 
     # Calculate actual stats from base stats at level 50
     level = 50
@@ -141,52 +175,58 @@ def create_pokemon_from_data(pokemon_data, move_name=None):
         # Note: We ignore special-attack and special-defense
     }
 
-    # Load the move
-    if move_name is None:
-        # Get first move from pokemon data
+    # Load moves (up to 4)
+    if move_names is None:
         move_names = pokemon_data.get("moves", [])
-        move_name = move_names[0] if move_names else None
 
-    move = None
-    if move_name:
+    moves = []
+    for move_name in move_names[:4]:  # Take only first 4 moves
         try:
             move_data = load_move_data(move_name)
-            move = create_move_from_data(move_data)
+            move = create_move_from_data(move_data, type_system)
+            moves.append(move)
         except FileNotFoundError:
-            print(f"Warning: Move '{move_name}' not found, Pokemon will have no move.")
+            # Skip moves that don't have JSON files
+            print(f"Warning: Move '{move_name}' not found, skipping.")
+            continue
 
-    # Calculate max_hp and set current_hp to full
-    max_hp = stats["hp"]
+    # Create Pokemon with up to 4 moves
+    move1 = moves[0] if len(moves) > 0 else None
+    move2 = moves[1] if len(moves) > 1 else None
+    move3 = moves[2] if len(moves) > 2 else None
+    move4 = moves[3] if len(moves) > 3 else None
 
-    # Return Pokemon as a dictionary
-    return {
-        "name": pokemon_data["name"],
-        "types": pokemon_types,
-        "stats": stats,
-        "max_hp": max_hp,
-        "current_hp": max_hp,
-        "level": level,
-        "move": move
-    }
+    return Pokemon(
+        name=pokemon_data["name"],
+        types=pokemon_types,
+        stats=stats,
+        move1=move1,
+        move2=move2,
+        move3=move3,
+        move4=move4,
+        sprite_url=pokemon_data.get("sprite_url", ""),
+        sprite_url_back=pokemon_data.get("sprite_url_back", "")
+    )
 
 
-def load_pokemon(pokemon_name):
+def load_pokemon(pokemon_name: str, type_system: Dict[str, Type]) -> Pokemon:
     """
-    Load a Pokemon from JSON file and create a Pokemon dictionary.
+    Load a Pokemon from JSON file and create a Pokemon object.
 
-    Convenience function that combines loading data and creating the dictionary.
+    Convenience function that combines loading data and creating the object.
 
     Args:
         pokemon_name: Name of the Pokemon (lowercase, e.g., "pikachu")
+        type_system: Dictionary mapping type names to Type objects
 
     Returns:
-        dict: Created Pokemon dictionary with all data loaded
+        Pokemon: Created Pokemon object with all data loaded
     """
     pokemon_data = load_pokemon_data(pokemon_name)
-    return create_pokemon_from_data(pokemon_data)
+    return create_pokemon_from_data(pokemon_data, type_system)
 
 
-def load_available_pokemon():
+def get_available_pokemon() -> list[str]:
     """
     Get a list of all available Pokemon names from the data directory.
 
@@ -203,22 +243,3 @@ def load_available_pokemon():
             pokemon_files.append(pokemon_name)
 
     return sorted(pokemon_files)
-
-
-def get_available_moves():
-    """
-    Get a list of all available move names from the data directory.
-
-    Returns:
-        list[str]: List of move names (without .json extension)
-    """
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    moves_dir = os.path.join(current_dir, 'data', 'moves')
-
-    move_files = []
-    for filename in os.listdir(moves_dir):
-        if filename.endswith('.json'):
-            move_name = filename[:-5]  # Remove .json extension
-            move_files.append(move_name)
-
-    return sorted(move_files)

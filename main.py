@@ -14,19 +14,24 @@ Run this file to start a Pokemon battle!
 
 import random
 import os
+from typing import Optional
 
-from data_loader import *
-from team import *
-from battle import *
-from pokemon import *
-from move import *
-from team_parser import *
-from ui_helper import *
+from data_loader import create_type_system, load_pokemon, get_available_pokemon, create_pokemon_from_data, load_pokemon_data
+from team import Team
+from battle import Battle
+from pokemon import Pokemon
+from move import Move
+from team_parser import parse_team_file, validate_team_data, get_team_summary
+from ui_helper import (
+    getch, move_cursor, update_hp_bar_in_place,
+    display_action_menu_screen, display_move_selection_screen,
+    display_battle_readout_screen, display_pokemon_select_screen
+)
 
 
 # Input Handler Functions
 
-def get_player_action():
+def get_player_action() -> str:
     """
     Get the player's action choice (FIGHT or POKEMON).
 
@@ -44,18 +49,52 @@ def get_player_action():
             print("Invalid choice. Please enter 1 or 2.")
 
 
+def get_move_selection_input(pokemon: Pokemon) -> Optional[Move]:
+    """
+    Get the player's move selection.
+
+    Args:
+        pokemon: The player's current Pokemon
+
+    Returns:
+        Move | None: Selected Move, or None if player chose 'back'
+    """
+    while True:
+        choice = input("\nChoose move (1-4) or 'back': ").strip().lower()
+
+        if choice == 'back':
+            return None
+
+        try:
+            move_num = int(choice)
+            if move_num < 1 or move_num > 4:
+                print("Invalid choice. Please enter 1-4 or 'back'.")
+                continue
+
+            move = pokemon.get_move(move_num)
+            if move is None:
+                print("That move slot is empty. Choose another.")
+                continue
+
+            if not move.is_usable():
+                print("That move has no PP left. Choose another.")
+                continue
+
+            return move
+
+        except ValueError:
+            print("Invalid input. Please enter a number (1-4) or 'back'.")
+
+
 # Arrow Key Navigation Input Handlers
 
-def get_action_with_arrows(battle):
+def get_action_with_arrows(battle: Battle) -> str:
     """
     Get player action using arrow keys (no Enter needed to move selection).
 
     Navigation:
     - Up/Down: Toggle between FIGHT (1) and POKEMON (2)
     - Enter: Confirm selection
-
-    Args:
-        battle: Battle dictionary
 
     Returns:
         str: 'fight' or 'pokemon'
@@ -75,7 +114,68 @@ def get_action_with_arrows(battle):
             return 'fight' if selected == 1 else 'pokemon'
 
 
-def get_pokemon_selection_with_arrows(team, allow_cancel=True):
+def get_move_with_arrows(battle: Battle, pokemon: Pokemon) -> Optional[Move]:
+    """
+    Get move selection using arrow keys with 4-way grid navigation.
+
+    Grid positions:
+        1 | 2
+       ---|---
+        3 | 4
+
+    Navigation:
+    - Up: 3→1, 4→2 (move up one row)
+    - Down: 1→3, 2→4 (move down one row)
+    - Left: 2→1, 4→3 (move left one column)
+    - Right: 1→2, 3→4 (move right one column)
+    - Enter: Confirm selection (if valid move with PP)
+    - Escape/B: Go back to action menu
+
+    Returns:
+        Move object or None (if back to action menu)
+    """
+    selected = 1  # Start with move 1
+
+    while True:
+        display_move_selection_screen(battle, selected)
+
+        key = getch()
+
+        # Arrow key navigation (4-way grid)
+        if key in ['w', 'W']:  # Up
+            if selected == 3:
+                selected = 1
+            elif selected == 4:
+                selected = 2
+        elif key in ['s', 'S']:  # Down
+            if selected == 1:
+                selected = 3
+            elif selected == 2:
+                selected = 4
+        elif key in ['a', 'A']:  # Left
+            if selected == 2:
+                selected = 1
+            elif selected == 4:
+                selected = 3
+        elif key in ['d', 'D']:  # Right
+            if selected == 1:
+                selected = 2
+            elif selected == 3:
+                selected = 4
+        elif key in ['\r', '\n']:  # Enter - confirm selection
+            move = pokemon.get_move(selected)
+            if move is None:
+                # Empty slot - stay in loop
+                continue
+            if not move.is_usable():
+                # No PP left - stay in loop
+                continue
+            return move
+        elif key in ['\x1b', 'b', 'B']:  # Escape or B key - go back
+            return None
+
+
+def get_pokemon_selection_with_arrows(team: Team, allow_cancel: bool = True) -> Optional[int]:
     """
     Get Pokemon selection using arrow keys with 2x3 grid navigation + Cancel button.
 
@@ -96,7 +196,7 @@ def get_pokemon_selection_with_arrows(team, allow_cancel=True):
     - Escape/B: Cancel (same as selecting Cancel)
 
     Args:
-        team: The player's team dictionary
+        team: The player's team
         allow_cancel: Whether Cancel option is available (default True)
 
     Returns:
@@ -104,13 +204,10 @@ def get_pokemon_selection_with_arrows(team, allow_cancel=True):
     """
     # Find first valid Pokemon to start selection on
     selected = 1  # Default to slot 1
-    pokemon_list = team["pokemon_list"]
-    current_index = team["current_pokemon_index"]
-
     for i in range(6):
-        if i < len(pokemon_list):
-            pokemon = pokemon_list[i]
-            if not is_fainted(pokemon) and i != current_index:
+        if i < len(team.pokemon_list):
+            pokemon = team.pokemon_list[i]
+            if not pokemon.is_fainted() and i != team.current_pokemon_index:
                 selected = i + 1  # Slots are 1-indexed
                 break
 
@@ -164,16 +261,16 @@ def get_pokemon_selection_with_arrows(team, allow_cancel=True):
             index = selected - 1
 
             # Validate selection
-            if index >= len(pokemon_list):
+            if index >= len(team.pokemon_list):
                 # Empty slot - stay in loop
                 continue
 
-            pokemon = pokemon_list[index]
-            if is_fainted(pokemon):
+            pokemon = team.pokemon_list[index]
+            if pokemon.is_fainted():
                 # Fainted Pokemon - stay in loop
                 continue
 
-            if index == current_index:
+            if index == team.current_pokemon_index:
                 # Already active - stay in loop
                 continue
 
@@ -186,13 +283,13 @@ def get_pokemon_selection_with_arrows(team, allow_cancel=True):
 # Note: All display functions have been moved to ui_helper.py
 
 
-def get_forced_switch_choice(team):
+def get_forced_switch_choice(team: Team) -> int:
     """
     Force the player to choose a Pokemon when current one faints.
     Uses arrow key navigation with Pokemon select screen.
 
     Args:
-        team: The player's team dictionary
+        team: The player's team
 
     Returns:
         int: Index of Pokemon to switch to
@@ -205,68 +302,88 @@ def get_forced_switch_choice(team):
         # If somehow None is returned despite allow_cancel=False, loop again
 
 
-def ai_select_switch(team):
+def ai_select_move(pokemon: Pokemon) -> Optional[Move]:
+    """
+    AI randomly selects a move from available moves.
+
+    Args:
+        pokemon: The AI's current Pokemon
+
+    Returns:
+        Move | None: Selected Move, or None if no moves available
+    """
+    available_moves = pokemon.get_available_moves()
+
+    if not available_moves:
+        return None
+
+    _, move = random.choice(available_moves)
+    return move
+
+
+def ai_select_switch(team: Team) -> int:
     """
     AI randomly selects a non-fainted Pokemon to switch to.
 
     Args:
-        team: The AI's team dictionary
+        team: The AI's team
 
     Returns:
         int: Index of Pokemon to switch to
     """
-    available = get_available_for_switch(team)
+    available = team.get_available_for_switch()
 
     if not available:
         # This shouldn't happen, but just in case
-        return team["current_pokemon_index"]
+        return team.current_pokemon_index
 
     index, _ = random.choice(available)
     return index
 
 
-def create_default_teams():
+def create_default_teams(type_system: dict) -> tuple[Team, Team]:
     """
     Create default teams for player and AI.
 
+    Args:
+        type_system: Dictionary mapping type names to Type objects
+
     Returns:
-        tuple[dict, dict]: (player_team, ai_team)
+        tuple[Team, Team]: (player_team, ai_team)
     """
     # Get available Pokemon
-    available_pokemon = load_available_pokemon()
+    available_pokemon = get_available_pokemon()
 
     if len(available_pokemon) < 12:
         print(f"Warning: Only {len(available_pokemon)} Pokemon available. Need at least 12 for two full teams.")
 
     # Player team - first 6 Pokemon
-    player_team = create_team()
+    player_team = Team()
     print("\nCreating your team...")
     for pokemon_name in available_pokemon[:6]:
         try:
-            pokemon = load_pokemon(pokemon_name)
-            success = add_pokemon(player_team, pokemon)
-            if success:
-                print(f"  Added {pokemon['name']} to your team")
+            pokemon = load_pokemon(pokemon_name, type_system)
+            player_team.add_pokemon(pokemon)
+            print(f"  Added {pokemon.name} to your team")
         except Exception as e:
             print(f"  Error loading {pokemon_name}: {e}")
 
     # AI team - next 6 Pokemon (or repeat if not enough)
-    ai_team = create_team()
+    ai_team = Team()
     print("\nCreating opponent's team...")
     ai_pokemon_names = available_pokemon[6:12] if len(available_pokemon) >= 12 else available_pokemon[:6]
     for pokemon_name in ai_pokemon_names:
         try:
-            pokemon = load_pokemon(pokemon_name)
-            success = add_pokemon(ai_team, pokemon)
-            if success:
-                print(f"  Added {pokemon['name']} to opponent's team")
+            pokemon = load_pokemon(pokemon_name, type_system)
+            ai_team.add_pokemon(pokemon)
+            print(f"  Added {pokemon.name} to opponent's team")
         except Exception as e:
             print(f"  Error loading {pokemon_name}: {e}")
 
     return player_team, ai_team
 
 
-def get_team_files():
+def get_team_files() -> list[str]:
     """
     Get list of team files from teams/ directory.
 
@@ -288,22 +405,23 @@ def get_team_files():
     return sorted(team_files)
 
 
-def create_team_from_file(team_file):
+def create_team_from_file(team_file: str, type_system: dict) -> Optional[Team]:
     """
     Create a team from a team file using the team parser.
 
     Args:
         team_file: Path to team file
+        type_system: Dictionary mapping type names to Type objects
 
     Returns:
-        Team dictionary, or None if loading failed
+        Team object, or None if loading failed
     """
     try:
         # Parse team file
         team_data = parse_team_file(team_file)
 
         # Get available Pokemon and moves for validation
-        available_pokemon = load_available_pokemon()
+        available_pokemon = get_available_pokemon()
         script_dir = os.path.dirname(os.path.abspath(__file__))
         available_moves_dir = os.path.join(script_dir, "data", "moves")
         available_moves = [f[:-5] for f in os.listdir(available_moves_dir) if f.endswith('.json')]
@@ -318,34 +436,28 @@ def create_team_from_file(team_file):
             return None
 
         # Create team
-        team = create_team()
+        team = Team()
         print(f"\nLoading team from {os.path.basename(team_file)}...")
 
         for entry in team_data:
             pokemon_name = entry["pokemon"]
             move_names = entry["moves"]
-            # Use first move from the list
-            move_name = move_names[0] if move_names else None
 
             try:
                 # Load Pokemon data
                 pokemon_data = load_pokemon_data(pokemon_name)
 
-                # Create Pokemon with custom move
-                pokemon = create_pokemon_from_data(pokemon_data, move_name=move_name)
+                # Create Pokemon with custom moves
+                pokemon = create_pokemon_from_data(pokemon_data, type_system, move_names=move_names)
 
-                success = add_pokemon(team, pokemon)
-                if success:
-                    print(f"  ✓ Added {pokemon['name']} with custom move")
-                else:
-                    print(f"  ✗ Failed to add {pokemon['name']} (team full)")
-                    return None
+                team.add_pokemon(pokemon)
+                print(f"  ✓ Added {pokemon.name} with custom moves")
 
             except Exception as e:
                 print(f"  ✗ Error loading {pokemon_name}: {e}")
                 return None
 
-        print(f"✓ Team loaded successfully ({get_team_size(team)} Pokemon)")
+        print(f"✓ Team loaded successfully ({len(team)} Pokemon)")
         return team
 
     except FileNotFoundError:
@@ -359,7 +471,7 @@ def create_team_from_file(team_file):
         return None
 
 
-def select_team_file():
+def select_team_file() -> Optional[str]:
     """
     Display team files and let user select one.
 
@@ -398,7 +510,7 @@ def select_team_file():
             print("Invalid input. Please enter a number.")
 
 
-def show_team_selection_menu():
+def show_team_selection_menu() -> str:
     """
     Show main menu for team selection.
 
@@ -426,7 +538,11 @@ def show_team_selection_menu():
             print("Invalid choice. Please enter 1, 2, or 0.")
 
 
-def select_and_create_team(team_label, allow_exit_on_failure=False):
+def select_and_create_team(
+    team_label: str,
+    type_system: dict,
+    allow_exit_on_failure: bool = False
+) -> Optional[Team]:
     """
     Unified function to select and create a team (player or AI).
 
@@ -438,20 +554,21 @@ def select_and_create_team(team_label, allow_exit_on_failure=False):
 
     Args:
         team_label: Label for the team (e.g., "PLAYER" or "AI")
+        type_system: Type system dictionary
         allow_exit_on_failure: If True, returns None on failure instead of falling back to default
 
     Returns:
-        Team dictionary, or None if allow_exit_on_failure=True and loading failed
+        Team object, or None if allow_exit_on_failure=True and loading failed
     """
     print(f"\n--- {team_label} TEAM SELECTION ---")
     team_file = select_team_file()
 
     if team_file is None:
         print(f"\nNo team selected for {team_label}. Using default team...")
-        team, _ = create_default_teams()
+        team, _ = create_default_teams(type_system)
         return team
 
-    team = create_team_from_file(team_file)
+    team = create_team_from_file(team_file, type_system)
 
     if team is None:
         if allow_exit_on_failure:
@@ -459,7 +576,7 @@ def select_and_create_team(team_label, allow_exit_on_failure=False):
             return None
         else:
             print(f"\nFailed to load {team_label} team. Using default team...")
-            team, _ = create_default_teams()
+            team, _ = create_default_teams(type_system)
             return team
 
     # Show team summary
@@ -470,11 +587,14 @@ def select_and_create_team(team_label, allow_exit_on_failure=False):
     return team
 
 
-def setup_teams():
+def setup_teams(type_system: dict) -> Optional[tuple[Team, Team]]:
     """
     Handle entire team setup process.
 
     Orchestrates team selection menu and team creation for both player and AI.
+
+    Args:
+        type_system: Type system dictionary
 
     Returns:
         Tuple of (player_team, ai_team), or None if setup failed/cancelled
@@ -486,24 +606,24 @@ def setup_teams():
 
     if menu_choice == 'default':
         print("\nUsing default teams...")
-        return create_default_teams()
+        return create_default_teams(type_system)
 
     # Custom team selection
-    player_team = select_and_create_team("PLAYER", allow_exit_on_failure=True)
+    player_team = select_and_create_team("PLAYER", type_system, allow_exit_on_failure=True)
     if player_team is None:
         return None
 
-    ai_team = select_and_create_team("AI", allow_exit_on_failure=False)
+    ai_team = select_and_create_team("AI", type_system, allow_exit_on_failure=False)
 
     # Validate teams
-    if get_team_size(player_team) == 0 or get_team_size(ai_team) == 0:
+    if len(player_team) == 0 or len(ai_team) == 0:
         print("\n✗ One or both teams are empty! Cannot start battle.")
         return None
 
     return player_team, ai_team
 
 
-def run_battle(player_team, ai_team):
+def run_battle(player_team: Team, ai_team: Team) -> None:
     """
     Run the battle loop.
 
@@ -515,11 +635,11 @@ def run_battle(player_team, ai_team):
     - Display battle results
 
     Args:
-        player_team: Player's team dictionary
-        ai_team: AI's team dictionary
+        player_team: Player's team
+        ai_team: AI's team
     """
     # Initialize battle
-    battle = create_battle(player_team, ai_team)
+    battle = Battle(player_team, ai_team)
 
     print("\n" + "=" * 60)
     print("BATTLE START!")
@@ -529,7 +649,7 @@ def run_battle(player_team, ai_team):
     # Main battle loop
     while True:
         # Check if battle is over first
-        result = check_battle_over(battle)
+        result = battle.check_battle_over()
         if result:
             if result == "player_wins":
                 print("\n🎉 YOU WIN! 🎉")
@@ -538,39 +658,66 @@ def run_battle(player_team, ai_team):
                 print("\n💀 YOU LOSE! 💀")
                 print("All your Pokemon have fainted!")
 
-            print("\n" + get_battle_summary(battle))
+            print("\n" + battle.get_battle_summary())
             break
 
         # State 1: Action Menu (with arrow key navigation)
         action = get_action_with_arrows(battle)
 
-        player_pokemon = get_current_pokemon(battle["player_team"])
-        ai_pokemon = get_current_pokemon(battle["ai_team"])
+        player_pokemon = player_team.get_current_pokemon()
+        ai_pokemon = ai_team.get_current_pokemon()
 
         if action == 'fight':
-            # State 2: Battle Readout - Sequential Attacks (damage applied by battle.py)
-            turn_result = execute_turn(battle)
+            # State 2: Move Selection (with arrow key navigation)
+            player_move = get_move_with_arrows(battle, player_pokemon)
 
-            # Display first attack
+            if player_move is None:
+                continue  # Player pressed 'back', return to action menu
+
+            # Get AI move
+            ai_move = ai_select_move(ai_pokemon)
+
+            if ai_move is None:
+                print("\nOpponent has no moves available!")
+                continue
+
+            # State 3: Battle Readout - Sequential Attacks
+            turn_result = battle.execute_turn(player_move, ai_move)
+
+            # Display first attack (HP bar shows pre-attack HP)
             first_attack = turn_result["first_attack"]
             display_battle_readout_screen(battle, first_attack["messages"])
 
-            # Update HP bar display to show damage
+            # Apply first attack damage while messages are showing
             if first_attack["hit"] and first_attack["damage"] > 0:
-                update_hp_bar_in_place(battle, first_attack["defender"])
+                if first_attack["defender"] == "player":
+                    defender = battle.player_team.get_current_pokemon()
+                else:
+                    defender = battle.ai_team.get_current_pokemon()
+                if defender:
+                    defender.take_damage(first_attack["damage"])
+                    # Update the HP bar in place to show damage
+                    update_hp_bar_in_place(battle, first_attack["defender"])
 
             # Move cursor to bottom for input prompt
             move_cursor(18, 1)
             input("│ Press Enter to continue...")
 
-            # Display second attack (if it happened)
+            # Display second attack (if it happened) - HP bar now shows post-first-attack HP
             if turn_result["second_attack"] is not None:
                 second_attack = turn_result["second_attack"]
                 display_battle_readout_screen(battle, second_attack["messages"])
 
-                # Update HP bar display to show damage
+                # Apply second attack damage while messages are showing
                 if second_attack["hit"] and second_attack["damage"] > 0:
-                    update_hp_bar_in_place(battle, second_attack["defender"])
+                    if second_attack["defender"] == "player":
+                        defender = battle.player_team.get_current_pokemon()
+                    else:
+                        defender = battle.ai_team.get_current_pokemon()
+                    if defender:
+                        defender.take_damage(second_attack["damage"])
+                        # Update the HP bar in place to show damage
+                        update_hp_bar_in_place(battle, second_attack["defender"])
 
                 # Move cursor to bottom for input prompt
                 move_cursor(18, 1)
@@ -584,36 +731,36 @@ def run_battle(player_team, ai_team):
             # Determine which Pokemon fainted based on attack results
             if first_attack["defender"] == "player" and first_defender_fainted:
                 # Player's Pokemon fainted
-                if not all_fainted(battle["player_team"]):
-                    switch_index = get_forced_switch_choice(battle["player_team"])
-                    switch_pokemon_in_battle(battle, "player", switch_index)
+                if not player_team.all_fainted():
+                    switch_index = get_forced_switch_choice(player_team)
+                    battle.switch_pokemon(player_team, switch_index)
             elif first_attack["defender"] == "ai" and first_defender_fainted:
                 # AI's Pokemon fainted
-                if not all_fainted(battle["ai_team"]):
-                    switch_index = ai_select_switch(battle["ai_team"])
-                    switch_pokemon_in_battle(battle, "ai", switch_index)
+                if not ai_team.all_fainted():
+                    switch_index = ai_select_switch(ai_team)
+                    battle.switch_pokemon(ai_team, switch_index)
 
             # Check second attack fainting (only if it occurred)
             if second_defender_fainted:
                 if turn_result["second_attack"]["defender"] == "player":
                     # Player's Pokemon fainted
-                    if not all_fainted(battle["player_team"]):
-                        switch_index = get_forced_switch_choice(battle["player_team"])
-                        switch_pokemon_in_battle(battle, "player", switch_index)
+                    if not player_team.all_fainted():
+                        switch_index = get_forced_switch_choice(player_team)
+                        battle.switch_pokemon(player_team, switch_index)
                 elif turn_result["second_attack"]["defender"] == "ai":
                     # AI's Pokemon fainted
-                    if not all_fainted(battle["ai_team"]):
-                        switch_index = ai_select_switch(battle["ai_team"])
-                        switch_pokemon_in_battle(battle, "ai", switch_index)
+                    if not ai_team.all_fainted():
+                        switch_index = ai_select_switch(ai_team)
+                        battle.switch_pokemon(ai_team, switch_index)
 
         elif action == 'pokemon':
             # Switch Pokemon flow using arrow key navigation
-            switch_index = get_pokemon_selection_with_arrows(battle["player_team"], allow_cancel=True)
+            switch_index = get_pokemon_selection_with_arrows(player_team, allow_cancel=True)
             if switch_index is not None:
-                switch_pokemon_in_battle(battle, "player", switch_index)
+                battle.switch_pokemon(player_team, switch_index)
 
 
-def main():
+def main() -> None:
     """
     Main game loop.
 
@@ -628,8 +775,13 @@ def main():
     print("=" * 60)
     print("\nWelcome to the Pokemon Battle Simulator!")
 
+    # Initialize type system
+    print("\nInitializing type system...")
+    type_system = create_type_system()
+    print("✓ Type system loaded")
+
     # Set up teams
-    teams = setup_teams()
+    teams = setup_teams(type_system)
     if teams is None:
         print("\nGoodbye!")
         return

@@ -1,9 +1,8 @@
 """
 Pokemon Type System
 
-This module implements the Pokemon type system using strings and functions.
-In Week 25, types are represented as simple strings like "fire", "water", "electric".
-Type effectiveness is looked up from JSON data.
+This module implements the Pokemon type system.
+All types are instances of the Type class.
 """
 
 import json
@@ -24,25 +23,49 @@ def _load_type_effectiveness() -> Dict[str, Dict[str, float]]:
 _TYPE_EFFECTIVENESS_DATA = _load_type_effectiveness()
 
 
-def get_effectiveness_against(attacker_type_name: str, defender_type_name: str) -> float:
+class Type:
     """
-    Calculate type effectiveness for an attacking type against a defending type.
+    Represents a Pokemon type (Fire, Water, Electric, etc.).
 
-    Args:
-        attacker_type_name: The type name of the attacking move (e.g., "fire")
-        defender_type_name: The type name being attacked (e.g., "grass")
-
-    Returns:
-        float: Effectiveness multiplier (2.0 = super effective, 1.0 = normal,
-               0.5 = not very effective, 0.0 = no effect)
+    Each type knows its name and can calculate effectiveness against other types.
     """
-    # Look up effectiveness from the shared type effectiveness data
-    if attacker_type_name in _TYPE_EFFECTIVENESS_DATA:
-        return _TYPE_EFFECTIVENESS_DATA[attacker_type_name].get(defender_type_name, 1.0)
-    return 1.0
+
+    def __init__(self, name: str):
+        """
+        Initialize a Type with its name.
+
+        Args:
+            name: The type name (e.g., "fire", "water", "grass")
+        """
+        self.name = name
+
+    def get_effectiveness_against(self, defender_type: 'Type') -> float:
+        """
+        Calculate this type's effectiveness against a defender type.
+
+        Args:
+            defender_type: The Type object being attacked
+
+        Returns:
+            float: Effectiveness multiplier (2.0 = super effective, 1.0 = normal,
+                   0.5 = not very effective, 0.0 = no effect)
+        """
+        # Look up effectiveness from the shared type effectiveness data
+        if self.name in _TYPE_EFFECTIVENESS_DATA:
+            return _TYPE_EFFECTIVENESS_DATA[self.name].get(defender_type.name, 1.0)
+        return 1.0
+
+    def __str__(self) -> str:
+        """Return the type name as a string."""
+        return self.name
+
+    def __repr__(self) -> str:
+        """Return a detailed string representation of the type."""
+        return f"Type('{self.name}')"
 
 
-def calculate_dual_type_effectiveness(move_type_name: str, defender_type_names: list[str]) -> float:
+# Helper function for calculating dual-type effectiveness
+def calculate_dual_type_effectiveness(move_type: Type, defender_types: list[Type]) -> float:
     """
     Calculate type effectiveness for a move against a Pokemon that may have 1 or 2 types.
 
@@ -50,29 +73,19 @@ def calculate_dual_type_effectiveness(move_type_name: str, defender_type_names: 
     For dual-type Pokemon: Multiplies the effectiveness values together
 
     Examples:
-        - Fire move vs ["grass"] (single type): 2.0x (super effective)
-        - Fire move vs ["grass", "poison"] (dual type): 2.0 * 1.0 = 2.0x
-        - Fire move vs ["water", "rock"] (dual type): 0.5 * 0.5 = 0.25x (quarter damage!)
-        - Ground move vs ["flying", "electric"] (dual type): 0.0 * 2.0 = 0.0x (no effect due to Flying)
+        - Fire move vs Grass (single type): 2.0x (super effective)
+        - Fire move vs Grass/Poison (dual type): 2.0 * 1.0 = 2.0x
+        - Fire move vs Water/Rock (dual type): 0.5 * 0.5 = 0.25x (quarter damage!)
+        - Ground move vs Flying/Electric (dual type): 0.0 * 2.0 = 0.0x (no effect due to Flying)
 
     Args:
-        move_type_name: The type name of the attacking move (e.g., "fire")
-        defender_type_names: List of type names for the defending Pokemon (1 or 2 types)
+        move_type: The Type object of the attacking move
+        defender_types: List of Type objects for the defending Pokemon (1 or 2 types)
 
     Returns:
         float: Combined effectiveness multiplier
     """
     effectiveness = 1.0
-    for defender_type_name in defender_type_names:
-        effectiveness *= get_effectiveness_against(move_type_name, defender_type_name)
+    for defender_type in defender_types:
+        effectiveness *= move_type.get_effectiveness_against(defender_type)
     return effectiveness
-
-
-def get_all_type_names() -> list[str]:
-    """
-    Get a list of all valid Pokemon type names.
-
-    Returns:
-        list[str]: List of all type names (e.g., ["normal", "fire", "water", ...])
-    """
-    return list(_TYPE_EFFECTIVENESS_DATA.keys())

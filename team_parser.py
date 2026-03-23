@@ -80,31 +80,51 @@ def parse_team_text(text: str) -> List[Dict[str, any]]:
         List of Pokemon dictionaries with names and moves
     """
     team = []
-    pokemon_pattern = r"^(\w+(?:-\w)*)$\s*\n((?:^\s*-\s*.+$\s*\n?)+)"
 
+    # Pattern to match a Pokemon block:
+    # ^(\w+(?:-\w+)*)$     - Pokemon name (allows hyphens like "mr-mime")
+    #                        ^ = start of line, $ = end of line
+    #                        \w+ = one or more word characters
+    #                        (?:-\w+)* = optional groups of "-word" (for hyphenated names)
+    # \s*\n                - Optional whitespace and newline
+    # ((?:^\s*-\s*.+$\s*\n?)+) - One or more move lines
+    #                        (?:...) = non-capturing group
+    #                        ^\s*-\s* = line starting with optional space, dash, space
+    #                        .+ = move name (one or more characters)
+    #                        \s*\n? = optional whitespace and newline
+    #                        + = one or more move lines
+    pokemon_pattern = r'^(\w+(?:-\w+)*)$\s*\n((?:^\s*-\s*.+$\s*\n?)+)'
+
+    # re.MULTILINE makes ^ and $ match line boundaries, not just string start/end
     matches = re.finditer(pokemon_pattern, text, re.MULTILINE)
+
     for match in matches:
         pokemon_name = match.group(1).lower().strip()
-        moves_block = match.group(2).strip()
-        print("-----")
-        print(pokemon_name)
-        print("*****")
-        print(moves_block)
-        print("#####")
-    move_pattern = r"^\s*-\s*(.+)$"
-    
-    move_matches = re.finditer(move_pattern, moves_block, re.MULTILINE)
-    moves = []
-    for move_match in move_matches:
-        move_name = move_match.group(1).strip()
-        move = normalize_move_name(move_name)
-        moves.append(move)
+        moves_block = match.group(2)
 
-    if 1 <= len(moves) <= 4:
-        team.append({
-            "pokemon": pokemon_name,
-            "moves": moves
-        })
+        # Extract individual moves from the moves block
+        # Pattern: ^\s*-\s*(.+)$
+        #          ^\s* = start of line with optional whitespace
+        #          - = literal dash
+        #          \s* = optional whitespace
+        #          (.+) = capture group for move name (one or more characters)
+        #          $ = end of line
+        move_pattern = r'^\s*-\s*(.+)$'
+        move_matches = re.finditer(move_pattern, moves_block, re.MULTILINE)
+
+        moves = []
+        for move_match in move_matches:
+            move_name = move_match.group(1).strip()
+            # Convert "Thunder Bolt" or "Thunderbolt" to "thunder-bolt"
+            move_name = normalize_move_name(move_name)
+            moves.append(move_name)
+
+        # Only add Pokemon if they have 1-4 moves
+        if 1 <= len(moves) <= 4:
+            team.append({
+                "pokemon": pokemon_name,
+                "moves": moves
+            })
 
     return team
 
@@ -130,7 +150,19 @@ def normalize_move_name(move_name: str) -> str:
     Returns:
         Normalized move name (lowercase with hyphens)
     """
-    return re.sub(r"[^a-z0-9-]", "", re.sub(r'\s+', "-", move_name.lower()))
+    # Convert to lowercase
+    normalized = move_name.lower()
+
+    # Replace one or more whitespace characters with a single hyphen
+    # \s+ matches spaces, tabs, newlines, etc.
+    normalized = re.sub(r'\s+', '-', normalized)
+
+    # Remove any characters that aren't letters, numbers, or hyphens
+    # [^a-z0-9-] means "anything that is NOT a-z, 0-9, or hyphen"
+    normalized = re.sub(r'[^a-z0-9-]', '', normalized)
+
+    return normalized
+
 
 def validate_team_data(team_data: List[Dict[str, any]],
                        available_pokemon: List[str],
@@ -156,18 +188,33 @@ def validate_team_data(team_data: List[Dict[str, any]],
     """
     errors = []
 
-    if not 1 <= len(team_data) <= 6:
-        errors.append("Error: # of pokemon is not within range")
+    # Check team size (1-6 Pokemon)
+    if len(team_data) < 1:
+        errors.append("Team must have at least 1 Pokemon")
+    elif len(team_data) > 6:
+        errors.append(f"Team has {len(team_data)} Pokemon (maximum is 6)")
 
-    for pokemon in team_data:
-        if not pokemon in available_pokemon:
-            errors.append("Error: Pokemon is not available")
-        if not 1 <= len(pokemon["moves"]) <= 4:
-            errors.append("Error: # of moves is not within range")
-        for move in pokemon["moves"]:
+    for entry in team_data:
+        pokemon_name = entry["pokemon"]
+        moves = entry["moves"]
+
+        # Check if Pokemon exists
+        if pokemon_name not in available_pokemon:
+            errors.append(f"Pokemon '{pokemon_name}' not found in database")
+
+        # Check move count
+        if len(moves) < 1:
+            errors.append(f"Pokemon '{pokemon_name}' has no moves")
+        elif len(moves) > 4:
+            errors.append(f"Pokemon '{pokemon_name}' has {len(moves)} moves (maximum is 4)")
+
+        # Check if all moves exist
+        for move in moves:
             if move not in available_moves:
-                errors.append("Error: Move not available")
-    return len(errors) == 0, errors
+                errors.append(f"Move '{move}' not found in database (for {pokemon_name})")
+
+    is_valid = len(errors) == 0
+    return is_valid, errors
 
 
 def get_team_summary(team_data: List[Dict[str, any]]) -> str:
@@ -221,6 +268,7 @@ Blastoise
 - Skull Bash
 - Water Gun
 """
+
     print("Testing team parser...")
     print("=" * 50)
 
