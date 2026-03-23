@@ -1,0 +1,35 @@
+Charizard
+- Flamethrower
+- Dragon Claw
+- Air Slash
+- Heat Wave
+
+Arcanine
+- Fire Fang
+- Crunch
+- Thunder Fang
+- Flare Blitz
+
+Ninetales
+- Flamethrower
+- Psybeam
+- Shadow Ball
+- Fire Spin
+
+Flareon
+- Flamethrower
+- Fire Fang
+- Quick Attack
+- Bite
+
+Magmar
+- Flamethrower
+- Fire Punch
+- Thunder Punch
+- Psychic
+
+Moltres
+- Flamethrower
+- Air Slash
+- Heat Wave
+- Wing Attack

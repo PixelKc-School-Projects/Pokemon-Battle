@@ -37,16 +37,34 @@ def calculate_damage(move, attacker, defender):
     Returns:
         int: Calculated damage amount (minimum 1)
     """
-    Level = attacker.get('level', 1)
-    Power = move.get('power', 0)
-    A = attacker.get('stats', {}).get('attack', 1)
-    D = defender.get('stats', {}).get('defense', 1)
-    STAB = 1.5 if move.get('type', "") in attacker.get('types', []) else 1.0
-    Type = calculate_dual_type_effectiveness(move.get('type', ""), defender.get('types', []))
-    Random = random.uniform(0.85, 1.0)
-    damage = (((2*Level/5+2)*Power*A/D/50)+2)*STAB*Type*Random
+    # Get stats
+    level = attacker["level"]
+    attacker_attack = attacker["stats"].get("attack", 0)
+    defender_defense = defender["stats"].get("defense", 1)
+    if defender_defense == 0:
+        defender_defense = 1
 
-    return max(1, int(damage))
+    # Base damage calculation (Gen III+ formula)
+    # Damage = (((2×Level÷5+2)×Power×A÷D÷50)+2)×Modifiers
+    base_damage = (((2 * level / 5 + 2) * move["power"] * attacker_attack / defender_defense) / 50) + 2
+
+    # STAB: 1.5x if move type matches any of attacker's types
+    move_type_name = move["type"]  # Type is a string like "electric"
+    has_stab = move_type_name in attacker["types"]  # types is list of strings
+    stab_multiplier = 1.5 if has_stab else 1.0
+
+    # Type effectiveness (pass type name string and list of type name strings)
+    type_effectiveness = calculate_dual_type_effectiveness(move_type_name, defender["types"])
+
+    # Random factor (0.85-1.0)
+    random_factor = random.uniform(0.85, 1.0)
+
+    # Calculate final damage
+    final_damage = base_damage * stab_multiplier * type_effectiveness * random_factor
+
+    # Ensure minimum damage of 1
+    return max(1, int(final_damage))
+
 
 def check_hit(move):
     """

@@ -1,0 +1,35 @@
+Blastoise
+- Hydro Pump
+- Ice Beam
+- Skull Bash
+- Flash Cannon
+
+Gyarados
+- Hydro Pump
+- Crunch
+- Ice Fang
+- Earthquake
+
+Lapras
+- Hydro Pump
+- Ice Beam
+- Body Slam
+- Thunderbolt
+
+Vaporeon
+- Hydro Pump
+- Water Pulse
+- Ice Beam
+- Bite
+
+Starmie
+- Hydro Pump
+- Psychic
+- Thunderbolt
+- Ice Beam
+
+Articuno
+- Ice Beam
+- Air Slash
+- Water Pulse
+- Hurricane

@@ -1,0 +1,17 @@
+Pikachu
+- Thunderbolt
+- Quick Attack
+- Iron Tail
+- Thunder
+
+Charizard
+- Flamethrower
+- Dragon Claw
+- Air Slash
+- Heat Wave
+
+Blastoise
+- Hydro Pump
+- Ice Beam
+- Skull Bash
+- Water Gun

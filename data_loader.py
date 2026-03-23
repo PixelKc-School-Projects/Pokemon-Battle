@@ -48,6 +48,17 @@ def calculate_stat(base_stat, level=50):
     return ((2 * base_stat) * level // 100) + 5
 
 
+def get_all_type_names():
+    """
+    Get a list of all valid Pokemon type names.
+
+    Returns:
+        list[str]: List of all type names
+    """
+    from type_system import get_all_type_names as _get_all_type_names
+    return _get_all_type_names()
+
+
 def load_pokemon_data(pokemon_name):
     """
     Load Pokemon data from JSON file.
@@ -159,3 +170,55 @@ def create_pokemon_from_data(pokemon_data, move_name=None):
     }
 
 
+def load_pokemon(pokemon_name):
+    """
+    Load a Pokemon from JSON file and create a Pokemon dictionary.
+
+    Convenience function that combines loading data and creating the dictionary.
+
+    Args:
+        pokemon_name: Name of the Pokemon (lowercase, e.g., "pikachu")
+
+    Returns:
+        dict: Created Pokemon dictionary with all data loaded
+    """
+    pokemon_data = load_pokemon_data(pokemon_name)
+    return create_pokemon_from_data(pokemon_data)
+
+
+def load_available_pokemon():
+    """
+    Get a list of all available Pokemon names from the data directory.
+
+    Returns:
+        list[str]: List of Pokemon names (without .json extension)
+    """
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    pokemon_dir = os.path.join(current_dir, 'data', 'pokemon')
+
+    pokemon_files = []
+    for filename in os.listdir(pokemon_dir):
+        if filename.endswith('.json'):
+            pokemon_name = filename[:-5]  # Remove .json extension
+            pokemon_files.append(pokemon_name)
+
+    return sorted(pokemon_files)
+
+
+def get_available_moves():
+    """
+    Get a list of all available move names from the data directory.
+
+    Returns:
+        list[str]: List of move names (without .json extension)
+    """
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    moves_dir = os.path.join(current_dir, 'data', 'moves')
+
+    move_files = []
+    for filename in os.listdir(moves_dir):
+        if filename.endswith('.json'):
+            move_name = filename[:-5]  # Remove .json extension
+            move_files.append(move_name)
+
+    return sorted(move_files)

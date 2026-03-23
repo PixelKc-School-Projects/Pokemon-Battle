@@ -1,0 +1,35 @@
+Pikachu
+- Thunderbolt
+- Iron Tail
+- Quick Attack
+- Thunder
+
+Charizard
+- Flamethrower
+- Dragon Claw
+- Air Slash
+- Fire Spin
+
+Blastoise
+- Hydro Pump
+- Ice Beam
+- Skull Bash
+- Water Gun
+
+Venusaur
+- Solar Beam
+- Razor Leaf
+- Power Whip
+- Seed Bomb
+
+Snorlax
+- Body Slam
+- Earthquake
+- Crunch
+- Hyper Beam
+
+Dragonite
+- Dragon Claw
+- Outrage
+- Wing Attack
+- Thunder Punch

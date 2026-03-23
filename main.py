@@ -225,14 +225,282 @@ def ai_select_switch(team):
     return index
 
 
-def setup_teams():
+def create_default_teams():
     """
-    Create hardcoded teams for the battle.
+    Create default teams for player and AI.
 
     Returns:
-        Tuple of (player_team, ai_team)
+        tuple[dict, dict]: (player_team, ai_team)
     """
-    return create_hardcoded_teams()
+    # Get available Pokemon
+    available_pokemon = load_available_pokemon()
+
+    if len(available_pokemon) < 12:
+        print(f"Warning: Only {len(available_pokemon)} Pokemon available. Need at least 12 for two full teams.")
+
+    # Player team - first 6 Pokemon
+    player_team = create_team()
+    print("\nCreating your team...")
+    for pokemon_name in available_pokemon[:6]:
+        try:
+            pokemon = load_pokemon(pokemon_name)
+            success = add_pokemon(player_team, pokemon)
+            if success:
+                print(f"  Added {pokemon['name']} to your team")
+        except Exception as e:
+            print(f"  Error loading {pokemon_name}: {e}")
+
+    # AI team - next 6 Pokemon (or repeat if not enough)
+    ai_team = create_team()
+    print("\nCreating opponent's team...")
+    ai_pokemon_names = available_pokemon[6:12] if len(available_pokemon) >= 12 else available_pokemon[:6]
+    for pokemon_name in ai_pokemon_names:
+        try:
+            pokemon = load_pokemon(pokemon_name)
+            success = add_pokemon(ai_team, pokemon)
+            if success:
+                print(f"  Added {pokemon['name']} to opponent's team")
+        except Exception as e:
+            print(f"  Error loading {pokemon_name}: {e}")
+
+    return player_team, ai_team
+
+
+def get_team_files():
+    """
+    Get list of team files from teams/ directory.
+
+    Returns:
+        List of team file paths
+    """
+    # Use absolute path based on script location
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    teams_dir = os.path.join(script_dir, "teams")
+
+    if not os.path.exists(teams_dir):
+        return []
+
+    team_files = []
+    for filename in os.listdir(teams_dir):
+        if filename.endswith('.txt'):
+            team_files.append(os.path.join(teams_dir, filename))
+
+    return sorted(team_files)
+
+
+def create_team_from_file(team_file):
+    """
+    Create a team from a team file using the team parser.
+
+    Args:
+        team_file: Path to team file
+
+    Returns:
+        Team dictionary, or None if loading failed
+    """
+    try:
+        # Parse team file
+        team_data = parse_team_file(team_file)
+
+        # Get available Pokemon and moves for validation
+        available_pokemon = load_available_pokemon()
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        available_moves_dir = os.path.join(script_dir, "data", "moves")
+        available_moves = [f[:-5] for f in os.listdir(available_moves_dir) if f.endswith('.json')]
+
+        # Validate team
+        is_valid, errors = validate_team_data(team_data, available_pokemon, available_moves)
+
+        if not is_valid:
+            print(f"\n✗ Team file validation failed:")
+            for error in errors:
+                print(f"  - {error}")
+            return None
+
+        # Create team
+        team = create_team()
+        print(f"\nLoading team from {os.path.basename(team_file)}...")
+
+        for entry in team_data:
+            pokemon_name = entry["pokemon"]
+            move_names = entry["moves"]
+            # Use first move from the list
+            move_name = move_names[0] if move_names else None
+
+            try:
+                # Load Pokemon data
+                pokemon_data = load_pokemon_data(pokemon_name)
+
+                # Create Pokemon with custom move
+                pokemon = create_pokemon_from_data(pokemon_data, move_name=move_name)
+
+                success = add_pokemon(team, pokemon)
+                if success:
+                    print(f"  ✓ Added {pokemon['name']} with custom move")
+                else:
+                    print(f"  ✗ Failed to add {pokemon['name']} (team full)")
+                    return None
+
+            except Exception as e:
+                print(f"  ✗ Error loading {pokemon_name}: {e}")
+                return None
+
+        print(f"✓ Team loaded successfully ({get_team_size(team)} Pokemon)")
+        return team
+
+    except FileNotFoundError:
+        print(f"\n✗ Team file not found: {team_file}")
+        return None
+    except ValueError as e:
+        print(f"\n✗ Team file error: {e}")
+        return None
+    except Exception as e:
+        print(f"\n✗ Unexpected error loading team: {e}")
+        return None
+
+
+def select_team_file():
+    """
+    Display team files and let user select one.
+
+    Returns:
+        Selected team file path, or None if cancelled
+    """
+    team_files = get_team_files()
+
+    if not team_files:
+        print("\n✗ No team files found in teams/ directory")
+        return None
+
+    print("\nAvailable team files:")
+    print("-" * 60)
+    for i, team_file in enumerate(team_files, 1):
+        filename = os.path.basename(team_file)
+        print(f"  {i}. {filename}")
+
+    print("\n  0. Cancel")
+    print("-" * 60)
+
+    while True:
+        try:
+            choice = input("\nSelect team file (0 to cancel): ").strip()
+            choice_num = int(choice)
+
+            if choice_num == 0:
+                return None
+
+            if 1 <= choice_num <= len(team_files):
+                return team_files[choice_num - 1]
+            else:
+                print(f"Invalid choice. Please enter 0-{len(team_files)}")
+
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+
+def show_team_selection_menu():
+    """
+    Show main menu for team selection.
+
+    Returns:
+        str: 'default', 'custom', or 'exit'
+    """
+    print("\n" + "=" * 60)
+    print("TEAM SELECTION")
+    print("=" * 60)
+    print("\n1. Quick Battle (default teams)")
+    print("2. Custom Team Battle (load from file)")
+    print("\n0. Exit")
+    print("-" * 60)
+
+    while True:
+        choice = input("\nSelect option: ").strip()
+
+        if choice == '1':
+            return 'default'
+        elif choice == '2':
+            return 'custom'
+        elif choice == '0':
+            return 'exit'
+        else:
+            print("Invalid choice. Please enter 1, 2, or 0.")
+
+
+def select_and_create_team(team_label, allow_exit_on_failure=False):
+    """
+    Unified function to select and create a team (player or AI).
+
+    Handles the complete flow:
+    - Display team selection menu
+    - Load team from file
+    - Fallback to default team if needed
+    - Show team summary
+
+    Args:
+        team_label: Label for the team (e.g., "PLAYER" or "AI")
+        allow_exit_on_failure: If True, returns None on failure instead of falling back to default
+
+    Returns:
+        Team dictionary, or None if allow_exit_on_failure=True and loading failed
+    """
+    print(f"\n--- {team_label} TEAM SELECTION ---")
+    team_file = select_team_file()
+
+    if team_file is None:
+        print(f"\nNo team selected for {team_label}. Using default team...")
+        team, _ = create_default_teams()
+        return team
+
+    team = create_team_from_file(team_file)
+
+    if team is None:
+        if allow_exit_on_failure:
+            print(f"\nFailed to load {team_label} team.")
+            return None
+        else:
+            print(f"\nFailed to load {team_label} team. Using default team...")
+            team, _ = create_default_teams()
+            return team
+
+    # Show team summary
+    team_data = parse_team_file(team_file)
+    print(f"\n{team_label}'s team:")
+    print(get_team_summary(team_data))
+
+    return team
+
+
+def setup_teams():
+    """
+    Handle entire team setup process.
+
+    Orchestrates team selection menu and team creation for both player and AI.
+
+    Returns:
+        Tuple of (player_team, ai_team), or None if setup failed/cancelled
+    """
+    menu_choice = show_team_selection_menu()
+
+    if menu_choice == 'exit':
+        return None
+
+    if menu_choice == 'default':
+        print("\nUsing default teams...")
+        return create_default_teams()
+
+    # Custom team selection
+    player_team = select_and_create_team("PLAYER", allow_exit_on_failure=True)
+    if player_team is None:
+        return None
+
+    ai_team = select_and_create_team("AI", allow_exit_on_failure=False)
+
+    # Validate teams
+    if get_team_size(player_team) == 0 or get_team_size(ai_team) == 0:
+        print("\n✗ One or both teams are empty! Cannot start battle.")
+        return None
+
+    return player_team, ai_team
 
 
 def run_battle(player_team, ai_team):
@@ -361,7 +629,12 @@ def main():
     print("\nWelcome to the Pokemon Battle Simulator!")
 
     # Set up teams
-    player_team, ai_team = setup_teams()
+    teams = setup_teams()
+    if teams is None:
+        print("\nGoodbye!")
+        return
+
+    player_team, ai_team = teams
 
     # Run battle
     run_battle(player_team, ai_team)
