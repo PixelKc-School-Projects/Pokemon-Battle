@@ -36,19 +36,18 @@ class Move:
 
         Args:
             name: Move name (e.g., "Flamethrower")
-            move_type: Type object for this move (e.g., Type("fire"))
+            move_type: Type object for this move (e.g., FireType())
             power: Base power of the move (0-250+)
             accuracy: Accuracy percentage (0-100, where 100 = always hits)
             pp: Maximum Power Points (how many times the move can be used)
         """
-        self.name: str = name
-        self.move_type: Type = move_type
-        self.power: int = power
-        self.accuracy: int = accuracy
-        self.pp: int = pp
-        self.current_pp = pp
+        self.name = name
+        self.move_type = move_type
+        self.power = power
+        self.accuracy = accuracy
+        self.pp = pp
+        self.current_pp = pp  # Starts at maximum
 
-    
     def calculate_damage(self, defender: 'Pokemon', attacker: 'Pokemon') -> int:
         """
         Calculate damage using the authentic Pokemon formula.
@@ -98,8 +97,8 @@ class Move:
         Returns:
             bool: True if move hits, False if it misses
         """
-
-        return self.accuracy <= random.randint(1, 100)
+        # Generate random number from 1-100, move hits if it's <= accuracy
+        return random.randint(1, 100) <= self.accuracy
 
     def use(self) -> bool:
         """
@@ -112,8 +111,7 @@ class Move:
         if self.current_pp > 0:
             self.current_pp -= 1
             return True
-        else:
-            return False
+        return False
 
     def is_usable(self) -> bool:
         """

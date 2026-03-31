@@ -26,8 +26,8 @@ class Team:
 
     def __init__(self):
         """Initialize an empty team."""
-        self.pokemon_list = []
-        self.current_pokemon_index = 0
+        self.pokemon_list: list[Pokemon] = []
+        self.current_pokemon_index: int = 0
 
     def add_pokemon(self, pokemon: Pokemon) -> bool:
         """
@@ -51,7 +51,9 @@ class Team:
         Returns:
             Pokemon | None: The active Pokemon, or None if team is empty or index invalid
         """
-        return self.pokemon_list[self.current_pokemon_index] if 0 <= self.current_pokemon_index < len(self.pokemon_list) else None
+        if 0 <= self.current_pokemon_index < len(self.pokemon_list):
+            return self.pokemon_list[self.current_pokemon_index]
+        return None
 
     def switch_pokemon(self, index: int) -> bool:
         """
@@ -64,7 +66,7 @@ class Team:
             bool: True if switch was successful, False if index is invalid
                   or Pokemon at that index doesn't exist
         """
-        if 0 <= self.current_pokemon_index < len(self.pokemon_list):
+        if 0 <= index < len(self.pokemon_list):
             self.current_pokemon_index = index
             return True
         return False
@@ -80,9 +82,6 @@ class Team:
             if not pokemon.is_fainted():
                 return False
         return True
-
-    # NOTE: The methods below are HELPER METHODS (pre-implemented)
-    # You don't need to implement these in Week 26!
 
     def get_available_pokemon(self) -> list[tuple[int, Pokemon]]:
         """

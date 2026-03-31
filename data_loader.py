@@ -14,7 +14,12 @@ import json
 import os
 from typing import Dict, Any, Optional
 
-from type_system import Type
+from type_system import (
+    Type, FireType, WaterType,
+    NormalType, ElectricType, GrassType, IceType, FightingType, PoisonType,
+    GroundType, FlyingType, PsychicType, BugType, RockType, GhostType,
+    DragonType, DarkType, SteelType, FairyType
+)
 from pokemon import Pokemon
 from move import Move
 
@@ -55,28 +60,33 @@ def create_type_system() -> Dict[str, Type]:
     """
     Create all 18 Type objects and return them in a dictionary.
 
+    TODO: After implementing all 18 type classes in type_system.py,
+    instantiate each one here and add it to the dictionary.
+
+    The dictionary key should be the lowercase type name (e.g., "fire")
+    The value should be an instance of the type class (e.g., FireType())
+
     Returns:
         dict[str, Type]: Dictionary mapping type names (strings) to Type objects
     """
     return {
-        "normal": Type("normal"),
-        "fire": Type("fire"),
-        "water": Type("water"),
-        "electric": Type("electric"),
-        "grass": Type("grass"),
-        "ice": Type("ice"),
-        "fighting": Type("fighting"),
-        "poison": Type("poison"),
-        "ground": Type("ground"),
-        "flying": Type("flying"),
-        "psychic": Type("psychic"),
-        "bug": Type("bug"),
-        "rock": Type("rock"),
-        "ghost": Type("ghost"),
-        "dragon": Type("dragon"),
-        "dark": Type("dark"),
-        "steel": Type("steel"),
-        "fairy": Type("fairy")
+        "fire": FireType(),
+        "water": WaterType(),
+        "electric": ElectricType(),
+        "grass": GrassType(),
+        "ice": IceType(),
+        "fighting": FightingType(),
+        "poison": PoisonType(),
+        "ground": GroundType(),
+        "flying": FlyingType(),
+        "psychic": PsychicType(),
+        "bug": BugType(),
+        "rock": RockType(),
+        "ghost": GhostType(),
+        "dragon": DragonType(),
+        "dark": DarkType(),
+        "steel": SteelType(),
+        "fairy": FairyType(),
     }
 
 

@@ -52,18 +52,21 @@ class Pokemon:
             sprite_url: URL for forward-facing sprite
             sprite_url_back: URL for backward-facing sprite
         """
-        self.name: str = name
-        self.types: list[Type] = types
-        self.stats: dict[str, int] = stats
-        self.move1: Optional[Move] = move1
-        self.move2: Optional[Move] = move2
-        self.move3: Optional[Move] = move3
-        self.move4: Optional[Move] = move4
-        self.sprite_url: str = sprite_url
-        self.sprite_url_back: str = sprite_url_back
-        self.level: int = 50
-        self.max_hp: int = stats.get("hp", 0)
-        self.current_hp: int = self.max_hp
+        self.name = name
+        self.types = types
+        self.stats = stats
+        self.level = 50  # All Pokemon standardized to level 50
+        self.max_hp = stats.get("hp", 0)  # Store max HP separately
+        self.current_hp = self.max_hp  # Start at max HP
+
+        # Individual move slots (not a list)
+        self.move1 = move1
+        self.move2 = move2
+        self.move3 = move3
+        self.move4 = move4
+
+        self.sprite_url = sprite_url
+        self.sprite_url_back = sprite_url_back
 
     def take_damage(self, amount: int) -> None:
         """
@@ -107,10 +110,16 @@ class Pokemon:
         Returns:
             Move | None: The Move object, or None if slot is empty or invalid number
         """
-        return {1: self.move1, 2: self.move2, 3: self.move3, 4: self.move4}.get(move_number)
-
-    # NOTE: The methods below are HELPER METHODS (pre-implemented)
-    # You don't need to implement these in Week 26!
+        if move_number == 1:
+            return self.move1
+        elif move_number == 2:
+            return self.move2
+        elif move_number == 3:
+            return self.move3
+        elif move_number == 4:
+            return self.move4
+        else:
+            return None
 
     def has_type(self, type_name: str) -> bool:
         """
