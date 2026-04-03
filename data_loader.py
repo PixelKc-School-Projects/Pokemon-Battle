@@ -70,6 +70,7 @@ def create_type_system() -> Dict[str, Type]:
         dict[str, Type]: Dictionary mapping type names (strings) to Type objects
     """
     return {
+        "normal": NormalType(),
         "fire": FireType(),
         "water": WaterType(),
         "electric": ElectricType(),
